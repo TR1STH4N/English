@@ -186,6 +186,27 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .fit-act{display:flex;justify-content:center;margin-top:26px}
 @media(max-width:700px){.fit{height:78vh}.fit-r{left:12px;right:12px;top:auto;bottom:122px;justify-items:center}.fit-l{left:16px;top:16px}.fit-l b{font-size:30px}.pill{padding:10px 16px}}
 
+.fit{height:min(86vh,800px)}
+.fit-l{z-index:2;justify-items:start;gap:6px}
+.pre{display:flex;gap:6px;flex-wrap:wrap;max-width:270px;margin-top:8px}
+.tone{display:flex;gap:7px;margin-top:6px}
+.tone button{width:20px;height:20px;border-radius:50%;border:1px solid #666;background:var(--c);cursor:pointer;transition:transform .15s var(--out),box-shadow .2s ease}
+.tone button[aria-pressed=true]{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--gold)}.tone button:active{transform:scale(.9)}
+.fit-r{z-index:2}.fit-r .sw{flex-wrap:wrap;justify-content:flex-end;max-width:170px}
+.fit-b{padding:40px 14px 16px;background:linear-gradient(transparent,rgba(8,7,5,.92) 45%);gap:12px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.cards{display:flex;gap:10px;overflow-x:auto;max-width:100%;padding:8px 6px 6px;scroll-snap-type:x proximity;scrollbar-width:none}
+.cards::-webkit-scrollbar{display:none}
+.gc{flex:0 0 116px;scroll-snap-align:center;display:grid;gap:2px;justify-items:center;padding:12px 8px 10px;border-radius:16px;border:1px solid #3a2f16;background:rgba(18,15,10,.85);color:var(--c,#cbbf9f);cursor:pointer;backdrop-filter:blur(8px);transition:transform .22s var(--out),border-color .2s ease,background .25s ease,box-shadow .25s ease;animation:cardin .5s var(--out) backwards}
+.gc:nth-child(2){animation-delay:60ms}.gc:nth-child(3){animation-delay:120ms}.gc:nth-child(4){animation-delay:180ms}.gc:nth-child(5){animation-delay:240ms}
+@keyframes cardin{from{opacity:0;transform:translateY(18px) scale(.94)}}
+.gc svg{width:48px;height:48px;fill:currentColor;stroke:rgba(240,215,140,.6);stroke-width:1;transition:transform .35s var(--out)}
+.gc b{font:600 13px var(--sans);color:var(--ivory)}.gc small{color:var(--mute);font-size:12px}
+.gc[aria-pressed=true]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 14px 34px rgba(207,169,78,.22);background:rgba(38,29,12,.92)}
+@media(hover:hover) and (pointer:fine){.gc:hover{transform:translateY(-5px)}.gc:hover svg{transform:scale(1.14) rotate(-5deg)}}
+.gc:active{transform:scale(.96)}
+@media(max-width:700px){.fit{height:86vh}.fit-r{bottom:230px}.gc{flex-basis:100px}}
+
 </style>
 </head>
 <body>
@@ -219,11 +240,11 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 <div class="mq"><div class="mt" data-dir="-1"><span>CENTOCINQUANTA ✦ FORMAL ✦ CREST ✦ CENTOCINQUANTA ✦ FORMAL ✦ CREST ✦ CENTOCINQUANTA ✦ FORMAL ✦ CREST ✦ </span></div><div class="mt out" data-dir="1"><span>PANTHER ✦ GOLD ✦ TAILORED ✦ PANTHER ✦ GOLD ✦ TAILORED ✦ PANTHER ✦ GOLD ✦ TAILORED ✦ </span></div></div>
 
 <section class="s" id="fitting" data-pose="0.9,0.8,0.22,2.6"><div class="wrap">
-  <div class="head"><div><div class="eyebrow rv">Fitting room</div><h2 data-split>Dress the model.</h2></div><p class="lead rv">Tap a piece and watch it land on the model. Drag the stage to turn him around.</p></div>
+  <div class="head"><div><div class="eyebrow rv">Fitting room</div><h2 data-split>Dress the model.</h2></div><p class="lead rv">Open the wardrobe, pick a shirt, pants, jacket or shoes, and watch the model change. Drag the stage to turn him around.</p></div>
   <div class="fit rv"><canvas id="fitgl"></canvas>
-    <div class="fit-l"><span class="eyebrow">Your outfit</span><b id="fitTotal">₱0</b><small id="fitList"></small></div>
+    <div class="fit-l"><span class="eyebrow">Your outfit</span><b id="fitTotal">₱0</b><small id="fitList"></small><div class="pre" id="fitPre"></div><div class="tone" id="fitSkin"></div></div>
     <div class="fit-r"><small id="fitSwL"></small><div class="sw" id="fitSw"></div><small>Size</small><div class="sz" id="fitSz"></div></div>
-    <div class="fit-b" id="fitPills"></div></div>
+    <div class="fit-b"><div class="tabs" id="fitTabs"></div><div class="cards" id="fitCards"></div></div></div>
   <div class="fit-act rv"><button class="btn fill mag" id="fitAdd">Add outfit to order</button></div>
 </div></section>
 
@@ -362,7 +383,7 @@ const gi=$('.giant');if(gi){let n=0;gi.innerHTML=[...gi.textContent].map(ch=>`<s
 $$('.links a').forEach(a=>{const o=a.textContent;a.addEventListener('pointerenter',()=>{if(rm)return;let k=0;const id=setInterval(()=>{a.textContent=[...o].map((ch,i)=>i<k?ch:'ABCDEFGHJKLMNPRSTUVWXYZ'[Math.random()*23|0]).join('');if(++k>o.length){a.textContent=o;clearInterval(id)}},40)})});
 /* ---------- shop ---------- */
 const COLORS={Onyx:'#171717',Navy:'#16243f',Oxblood:'#4d1420',Forest:'#143429'};
-const PAL={...COLORS,Ivory:'#e6dcc6'};
+const PAL={...COLORS,Ivory:'#e6dcc6',Khaki:'#b39b6e',Slate:'#3b4048'};
 const PRODUCTS=[
  {id:'blazer',name:'Crest Blazer',note:'Wool blend · gold buttons',price:8900,sizes:1,
   svg:'<path class="fab" d="M58 24l28-10 14 52 14-52 28 10 38 40-6 160h-62V96l-12-12-12 12v128H26L20 64z"/><path d="M86 14l14 52 14-52M100 66l-14 30M100 66l14 30" stroke="#cfa94e" stroke-width="1.5" fill="none"/><circle cx="100" cy="150" r="3.2" fill="#cfa94e"/><circle cx="100" cy="180" r="3.2" fill="#cfa94e"/><image href="logo.png" x="124" y="104" width="26" height="26"/>'},
@@ -389,7 +410,7 @@ $$('.card').forEach(card=>{
  if(fine){card.addEventListener('pointermove',e=>{const r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
    t.style.setProperty('--ry',(x-.5)*16+'deg');t.style.setProperty('--rx',-(y-.5)*16+'deg');t.style.setProperty('--mx',x*100+'%');t.style.setProperty('--my',y*100+'%')});
   card.addEventListener('pointerleave',()=>{t.style.setProperty('--ry','0deg');t.style.setProperty('--rx','0deg')})}});
-function addItem(id,c,size){const p=PRODUCTS.find(x=>x.id==id),k=id+c+size,ex=state.cart.find(i=>i.k==k);ex?ex.q++:state.cart.push({k,id,name:p.name,price:p.price,c,size,q:1});render();const b=$('#count');b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}
+function addItem(id,c,size){const p=PRODUCTS.find(x=>x.id==id)||FLAT.find(x=>x.id==id),k=id+c+size,ex=state.cart.find(i=>i.k==k);ex?ex.q++:state.cart.push({k,id,name:p.name,price:p.price,c,size,q:1});render();const b=$('#count');b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}
 function add(id){const p=PRODUCTS.find(x=>x.id==id),s=state.sel[id];addItem(id,s.c,p.sizes?s.s:'—')}
 function render(){const n=state.cart.reduce((a,i)=>a+i.q,0),tot=state.cart.reduce((a,i)=>a+i.q*i.price,0);
  $('#count').textContent=n;$('#total').textContent=php(tot);$('#checkout').disabled=!n;$('#checkout').style.opacity=n?1:.4;
@@ -409,94 +430,210 @@ let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on
 render();
 
 
-/* ---------- fitting room (3D model) ---------- */
-const FIT={blazer:{on:true,c:'Onyx'},shirt:{on:true,c:'Ivory'},tie:{on:true,c:'Oxblood'},pin:{on:false,c:'Onyx'}};
-const FITN={blazer:'Blazer',shirt:'Shirt',tie:'Tie',pin:'Pin'};
-let fitSize='M',fitAct='blazer',fitBurst=()=>{};
-function wear(id,p){if(!FIT[id])return;const was=FIT[id].on;Object.assign(FIT[id],p);if(p.on)fitAct=id;fitUI();fitBurst(was!==FIT[id].on?2:.6)}
+/* ---------- fitting room v2 ---------- */
+const TONES=['#ecc9a6','#c99a77','#a8704b','#6f4a31'];
+const IC={
+ shirt:'<path d="M12 6 4 11l3 6 3-2v17h16V15l3 2 3-6-8-5c-1 3-3 4-6 4s-5-1-6-4z"/>',
+ polo:'<path d="M13 6 4 12l4 5 3-2v17h18V15l3 2 4-5-9-6c-1 3-3 4-6 4s-5-1-6-4z"/><path d="M20 10v8" stroke="#0a0908" stroke-width="1.4"/>',
+ barong:'<path d="M12 6 4 11l3 7 3-2v20h20V16l3 2 3-7-8-5c-1 3-3 4-6 4s-5-1-6-4z"/><path d="M20 10v24" stroke="#cfa94e" stroke-width="1.4"/>',
+ blazer:'<path d="M13 5 4 11l2 24 8 2V19l6 12 6-12v18l8-2 2-24-9-6-7 9z"/>',
+ vest:'<path d="M11 5l7 9 2-3 2 3 7-9 3 4v27H8V9z"/>',
+ slacks:'<path d="M11 4h18l2 32h-8l-3-21-3 21h-8z"/>',
+ chinos:'<path d="M11 4h18l2 32h-8l-3-21-3 21h-8z"/><path d="M9 33h8m6 0h8" stroke="#0a0908" stroke-width="1.4"/>',
+ shorts:'<path d="M11 8h18l2 17h-9l-2-8-2 8H9z"/>',
+ oxford:'<path d="M4 23c5 0 7-4 9-4l6 5c5 1 11 1 17 4v4H4z"/>',
+ sneak:'<path d="M4 21c5 0 8-3 9-5l7 5c5 0 11 2 16 5v5H4z"/><path d="M4 31h32" stroke="#0a0908" stroke-width="1.4"/>',
+ tie:'<path d="M17 5h6l-1.5 5L26 32l-6 5-6-5 4.5-22z"/>',
+ pin:'<image href="logo.png" x="5" y="5" width="30" height="30"/>',
+ none:'<circle cx="20" cy="20" r="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>'};
+const CAT={
+ top:[{id:'shirt',name:'Dress Shirt',price:3400,c:'Ivory'},{id:'polo',name:'Polo',price:2600,c:'Navy'},{id:'barong',name:'Barong',price:4800,c:'Ivory'}],
+ jacket:[{id:'blazer',name:'Crest Blazer',price:8900,c:'Onyx'},{id:'vest',name:'Waistcoat',price:3900,c:'Slate'}],
+ pants:[{id:'slacks',name:'Slacks',price:3600,c:'Slate'},{id:'chinos',name:'Chinos',price:3200,c:'Khaki'},{id:'shorts',name:'Shorts',price:2400,c:'Khaki'}],
+ shoes:[{id:'oxford',name:'Oxfords',price:4500,c:'Onyx'},{id:'sneak',name:'Sneakers',price:3800,c:'Ivory'}],
+ extra:[{id:'tie',name:'Silk Tie',price:1800,c:'Oxblood'},{id:'pin',name:'Crest Pin',price:2600,c:'Onyx'}]};
+const TABS=[['top','Tops','top'],['jacket','Jackets','jacket'],['pants','Pants','pants'],['shoes','Shoes','shoes'],['extra','Extras','tie']];
+const FLAT=Object.values(CAT).flat();
+const SLOT={shirt:'top',polo:'top',barong:'top',blazer:'jacket',vest:'jacket',slacks:'pants',chinos:'pants',shorts:'pants',oxford:'shoes',sneak:'shoes',tie:'tie',pin:'pin'};
+const SEL={top:{id:'shirt',c:'Ivory'},jacket:{id:'blazer',c:'Onyx'},pants:{id:'slacks',c:'Slate'},shoes:{id:'oxford',c:'Onyx'},tie:{id:'tie',c:'Oxblood'},pin:{id:null,c:'Onyx'}};
+const PRE={
+ Boardroom:{top:['shirt','Ivory'],jacket:['blazer','Onyx'],pants:['slacks','Slate'],shoes:['oxford','Onyx'],tie:['tie','Oxblood'],pin:['pin','Onyx']},
+ Gala:{top:['shirt','Ivory'],jacket:['blazer','Navy'],pants:['slacks','Navy'],shoes:['oxford','Onyx'],tie:['tie','Onyx'],pin:['pin','Onyx']},
+ Barong:{top:['barong','Ivory'],jacket:[null],pants:['slacks','Onyx'],shoes:['oxford','Onyx'],tie:[null],pin:['pin','Onyx']},
+ Casual:{top:['polo','Navy'],jacket:[null],pants:['chinos','Khaki'],shoes:['sneak','Ivory'],tie:[null],pin:[null]},
+ Clear:{top:[null],jacket:[null],pants:[null],shoes:[null],tie:[null],pin:[null]}};
+let fitSize='M',fitSlot='top',fitTab='top',fitSkin=1,fitBurst=()=>{};
+function setSlot(slot,id,c,quiet){SEL[slot].id=id;if(c)SEL[slot].c=c;fitSlot=slot;fitUI();fitBurst(slot,!quiet)}
+function wear(id,p){const s=SLOT[id];if(!s)return;if(p.on===false)setSlot(s,null);else setSlot(s,id,p.c)}
+function preset(n){const o=['top','pants','shoes','jacket','tie','pin'];o.forEach((s,i)=>setTimeout(()=>{const v=PRE[n][s];setSlot(s,v[0],v[1],i<o.length-1)},i*190))}
+function buildCards(){
+ $('#fitCards').innerHTML=(fitTab!='extra'?`<button class="gc" data-none="${fitTab}"><svg viewBox="0 0 40 40">${IC.none}</svg><b>None</b><small>&nbsp;</small></button>`:'')+CAT[fitTab].map(it=>`<button class="gc" data-id="${it.id}"><svg viewBox="0 0 40 40">${IC[it.id]}</svg><b>${it.name}</b><small>${php(it.price)}</small></button>`).join('');
+ $('#fitCards').scrollLeft=0}
 function fitUI(){
- $$('#fitPills [data-p]').forEach(b=>{const id=b.dataset.p;b.setAttribute('aria-pressed',FIT[id].on);b.classList.toggle('act',id==fitAct&&FIT[id].on)});
- $$('#fitSw button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c==FIT[fitAct].c));
+ const names=[];const total=Object.keys(SEL).reduce((a,s)=>{const id=SEL[s].id;if(!id)return a;const it=FLAT.find(x=>x.id==id);names.push(it.name);return a+it.price},0);
+ $('#fitTotal').textContent=php(total);$('#fitList').textContent=names.length?names.join(' · '):'Nothing yet';
+ $$('#fitTabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tab==fitTab));
+ $$('#fitCards .gc').forEach(b=>{if(b.dataset.none){b.setAttribute('aria-pressed',!SEL[b.dataset.none].id)}else{const id=b.dataset.id,s=SLOT[id],on=SEL[s].id==id,it=FLAT.find(x=>x.id==id);b.setAttribute('aria-pressed',on);b.style.setProperty('--c',PAL[on?SEL[s].c:it.c])}});
+ const cur=SEL[fitSlot],ci=cur.id&&FLAT.find(x=>x.id==cur.id);
+ $('#fitSwL').textContent=ci?'Colour · '+ci.name:'Colour';
+ $$('#fitSw button').forEach(b=>b.setAttribute('aria-pressed',!!cur.id&&b.dataset.c==cur.c));
  $$('#fitSz button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s==fitSize));
- const on=Object.keys(FIT).filter(k=>FIT[k].on);
- $('#fitTotal').textContent=php(on.reduce((a,k)=>a+PRODUCTS.find(p=>p.id==k).price,0));
- $('#fitList').textContent=on.length?on.map(k=>FITN[k]).join(' · '):'Nothing yet';
- $('#fitSwL').textContent='Colour · '+FITN[fitAct]}
-const PRE={Boardroom:{blazer:['Onyx',1],shirt:['Ivory',1],tie:['Oxblood',1],pin:['Onyx',1]},Gala:{blazer:['Navy',1],shirt:['Ivory',1],tie:['Onyx',1],pin:['Onyx',1]},Weekend:{blazer:['Onyx',0],shirt:['Forest',1],tie:['Onyx',0],pin:['Onyx',1]},Clear:{blazer:['Onyx',0],shirt:['Ivory',0],tie:['Onyx',0],pin:['Onyx',0]}};
-function preset(n){['shirt','blazer','tie','pin'].forEach((id,i)=>setTimeout(()=>wear(id,{c:PRE[n][id][0],on:!!PRE[n][id][1]}),i*170))}
-$('#fitPills').innerHTML=`<div class="pr">${Object.keys(PRE).map(n=>`<button class="pill sm" data-pre="${n}">${n}</button>`).join('')}</div><div class="pr">${Object.keys(FITN).map(k=>`<button class="pill" data-p="${k}" aria-pressed="false">${FITN[k]}</button>`).join('')}</div>`;
+ $$('#fitSkin button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.k==fitSkin))}
+$('#fitTabs').innerHTML=TABS.map(([k,n])=>`<button class="pill sm" data-tab="${k}">${n}</button>`).join('');
+$('#fitPre').innerHTML=Object.keys(PRE).map(n=>`<button class="pill sm" data-pre="${n}">${n}</button>`).join('');
 $('#fitSw').innerHTML=Object.entries(PAL).map(([n,c])=>`<button style="--c:${c}" data-c="${n}" aria-label="${n}"></button>`).join('');
 $('#fitSz').innerHTML=SIZES.map(s=>`<button data-s="${s}">${s}</button>`).join('');
-$('#fitPills').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.p)wear(b.dataset.p,{on:!FIT[b.dataset.p].on});else if(b.dataset.pre)preset(b.dataset.pre)});
-$('#fitSw').addEventListener('click',e=>{const b=e.target.closest('button');if(b)wear(fitAct,{c:b.dataset.c,on:true})});
+$('#fitSkin').innerHTML=TONES.map((c,k)=>`<button style="--c:${c}" data-k="${k}" aria-label="Skin tone ${k+1}"></button>`).join('');
+$('#fitTabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;fitTab=b.dataset.tab;fitSlot=TABS.find(t=>t[0]==fitTab)[2];buildCards();fitUI();fitBurst(fitSlot,false)});
+$('#fitPre').addEventListener('click',e=>{const b=e.target.closest('button');if(b)preset(b.dataset.pre)});
+$('#fitSw').addEventListener('click',e=>{const b=e.target.closest('button');if(b&&SEL[fitSlot].id)setSlot(fitSlot,SEL[fitSlot].id,b.dataset.c,true)});
 $('#fitSz').addEventListener('click',e=>{const b=e.target.closest('button');if(b){fitSize=b.dataset.s;fitUI()}});
-$('#fitAdd').onclick=()=>{const on=Object.keys(FIT).filter(k=>FIT[k].on);if(!on.length){toast('Dress the model first');return}
- on.forEach(k=>addItem(k,FIT[k].c,PRODUCTS.find(p=>p.id==k).sizes?fitSize:'—'));toast('Outfit added to your order');fitBurst(4);setTimeout(()=>openDrawer(),900)};
-fitUI();
+$('#fitSkin').addEventListener('click',e=>{const b=e.target.closest('button');if(b){fitSkin=+b.dataset.k;fitUI();fitBurst('top',false)}});
+$('#fitCards').addEventListener('click',e=>{const b=e.target.closest('.gc');if(!b)return;
+ if(b.dataset.none){setSlot(b.dataset.none,null);return}
+ const id=b.dataset.id,s=SLOT[id],it=FLAT.find(x=>x.id==id);if(SEL[s].id==id)setSlot(s,null);else setSlot(s,id,it.c)});
+$('#fitAdd').onclick=()=>{const on=Object.keys(SEL).filter(s=>SEL[s].id);if(!on.length){toast('Dress the model first');return}
+ on.forEach(s=>addItem(SEL[s].id,SEL[s].c,['top','jacket','pants'].includes(s)?fitSize:'—'));toast('Outfit added to your order');fitBurst('top',true);setTimeout(()=>openDrawer(),900)};
+buildCards();fitUI();
 (function(){
- const cv=$('#fitgl');if(!cv||!window.THREE)return;const G=THREE;
+ const cv=$('#fitgl');if(!cv||!window.THREE)return;const G=THREE,V3=G.Vector3,V2=G.Vector2;
  let R;try{R=new G.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){return}
- R.setPixelRatio(Math.min(devicePixelRatio,2));
- const sc=new G.Scene(),cam=new G.PerspectiveCamera(30,1,.1,60);cam.position.set(0,2,11.5);cam.lookAt(0,1.7,0);
- sc.add(new G.AmbientLight(0xffffff,.6));
- const kl=new G.DirectionalLight(0xfff0d0,1.2);kl.position.set(3,6,7);sc.add(kl);
- const rl=new G.PointLight(0xcfa94e,2,30);rl.position.set(-4,4,-4);sc.add(rl);
- const M=(c,o)=>new G.MeshStandardMaterial(Object.assign({color:c,roughness:.7,metalness:.05,side:G.DoubleSide},o||{}));
- const skin=M(0xc99f84,{roughness:.55}),hairM=M(0x15110d),trou=M(0x1a1a1c),shoe=M(0x080808,{roughness:.3,metalness:.4}),goldM=M(0xcfa94e,{metalness:.9,roughness:.25});
+ R.setPixelRatio(Math.min(devicePixelRatio,2));R.shadowMap.enabled=true;R.shadowMap.type=G.PCFSoftShadowMap;
+ const sc=new G.Scene(),cam=new G.PerspectiveCamera(30,1,.1,60);
+ sc.add(new G.HemisphereLight(0xfff3df,0x2a2012,.8));
+ const key=new G.DirectionalLight(0xfff0d6,1.1);key.position.set(3.5,7,6);key.target.position.set(0,2,0);sc.add(key.target);
+ key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.bias=-.0004;key.shadow.normalBias=.03;
+ Object.assign(key.shadow.camera,{left:-3.5,right:3.5,top:4,bottom:-4,near:1,far:22});key.shadow.camera.updateProjectionMatrix();sc.add(key);
+ const rim=new G.PointLight(0xcfa94e,2.2,30);rim.position.set(-4,4,-4);sc.add(rim);
+ const fl=new G.PointLight(0xffffff,.45,30);fl.position.set(-3,2,6);sc.add(fl);
+ const M=(c,o)=>new G.MeshPhysicalMaterial(Object.assign({color:c,roughness:.7,metalness:0,side:G.DoubleSide},o||{}));
+ const skin=M(0xc99a77,{roughness:.5,clearcoat:.08,clearcoatRoughness:.6}),hairM=M(0x17110c,{roughness:.45,clearcoat:.2}),
+  gm=M(0xcfa94e,{metalness:.9,roughness:.25}),wb=M(0xf4eee0,{roughness:.4}),dk=M(0x1b1b1d,{roughness:.8}),
+  eyeW=M(0xf5f2ea,{roughness:.3}),eyeD=M(0x1a120c,{roughness:.2}),lip=M(0x8c4a43,{roughness:.5}),brow=M(0x1a120c),bm=M(0x1a1109,{roughness:.4,clearcoat:.4});
+ const fc=document.createElement('canvas');fc.width=fc.height=64;const fx=fc.getContext('2d');fx.fillStyle='#808080';fx.fillRect(0,0,64,64);fx.strokeStyle='#b4b4b4';fx.lineWidth=2;
+ for(let i=-64;i<64;i+=6){fx.beginPath();fx.moveTo(i,0);fx.lineTo(i+64,64);fx.stroke()}
+ const fab=new G.CanvasTexture(fc);fab.wrapS=fab.wrapT=G.RepeatWrapping;fab.repeat.set(10,14);
+ const v=(x,y,z)=>new V3(x,y,z),dn=new V3(0,-1,0),fwd=new V3(0,0,1);
+ const put=(par,geo,mat,x,y,z,fn)=>{const o=new G.Mesh(geo,mat);o.position.set(x,y,z);o.castShadow=true;fn&&fn(o);par.add(o);return o};
+ const sph=r=>new G.SphereGeometry(r,24,18),cyl=(a,b,h)=>new G.CylinderGeometry(a,b,h,24);
+ const lt=(pts,d)=>new G.LatheGeometry(pts.map(p=>new V2(p[1]+d,p[0])),40);
+ function lim(a,b,r1,r2,open){const L=a.distanceTo(b),pts=[];
+  if(!open){for(let i=0;i<=8;i++){const t=i/8*Math.PI/2;pts.push(new V2(r2*Math.sin(t),-(L-r2)-r2*Math.cos(t)))}}else pts.push(new V2(r2,-L));
+  for(let i=0;i<=8;i++){const t=i/8*Math.PI/2;pts.push(new V2(r1*Math.cos(t),-r1+r1*Math.sin(t)))}
+  return new G.LatheGeometry(pts,28)}
+ function put2(par,geo,mat,a,b){const o=new G.Mesh(geo,mat);o.position.copy(a);o.quaternion.setFromUnitVectors(dn,b.clone().sub(a).normalize());o.castShadow=true;par.add(o);return o}
+ function cuff(par,mat,pt,dir,r,t){const o=new G.Mesh(new G.TorusGeometry(r,t,8,28),mat);o.position.copy(pt);o.quaternion.setFromUnitVectors(fwd,dir.clone().normalize());o.castShadow=true;par.add(o)}
  const rig=new G.Group();sc.add(rig);
- const put=(par,geo,mat,x,y,z,fn)=>{const o=new G.Mesh(geo,mat);o.position.set(x,y,z);fn&&fn(o);par.add(o);return o};
- const cyl=(a,b,h)=>new G.CylinderGeometry(a,b,h,24),sph=r=>new G.SphereGeometry(r,24,18);
- /* the model */
- put(rig,sph(.22),skin,0,3.62,.01,o=>o.scale.set(.95,1.12,1));
- put(rig,new G.SphereGeometry(.236,28,14,0,Math.PI*2,0,Math.PI*.55),hairM,0,3.67,-.02,o=>o.rotation.x=-.25);
- put(rig,cyl(.08,.09,.26),skin,0,3.38,0);
- const prof=[[.26,1.6],[.3,2],[.28,2.45],[.33,2.9],[.3,3.2],[.1,3.3]];
- const lathe=d=>new G.LatheGeometry(prof.map(p=>new G.Vector2(p[0]+d,p[1])),36);
- put(rig,lathe(0),skin,0,0,0,o=>o.scale.z=.6);
- put(rig,cyl(.3,.27,.5),trou,0,1.45,0,o=>o.scale.z=.62);
- [-1,1].forEach(s=>{put(rig,sph(.13),skin,s*.43,3.05,0);put(rig,cyl(.075,.065,.85),skin,s*.5,2.62,0,o=>o.rotation.z=s*.06);
-  put(rig,cyl(.062,.05,.8),skin,s*.55,1.82,0,o=>o.rotation.z=s*.04);put(rig,sph(.07),skin,s*.57,1.38,0);
-  put(rig,cyl(.15,.115,1),trou,s*.15,1,0);put(rig,cyl(.115,.09,.95),trou,s*.15,.08,0);put(rig,new G.BoxGeometry(.2,.12,.42),shoe,s*.15,-.42,.08)});
- put(sc,cyl(1.7,1.8,.14),M(0x100d09,{metalness:.7,roughness:.3}),0,-.56,0);
- put(sc,new G.TorusGeometry(1.72,.022,10,96),goldM,0,-.48,0,o=>o.rotation.x=Math.PI/2);
- /* clothes */
- const tex=new G.TextureLoader().load('logo.png'),logoM=new G.MeshBasicMaterial({map:tex,transparent:true,side:G.DoubleSide}),P={};
- function mk(id){const g=new G.Group();rig.add(g);const p=P[id]={g,mats:[],all:[],t:0,base:new G.Vector3()};
-  p.cm=()=>{const m=M(PAL[FIT[id].c],{roughness:.8});m.transparent=true;p.mats.push(m);p.all.push(m);return m};return p}
- let p=mk('blazer'),m=p.cm();
- put(p.g,lathe(.045),m,0,0,0,o=>o.scale.z=.62);
- [-1,1].forEach(s=>{put(p.g,cyl(.105,.09,1.1),m,s*.52,2.5,0,o=>o.rotation.z=s*.06);put(p.g,sph(.15),m,s*.43,3.05,0)});
- [2.5,2.28].forEach(y=>put(p.g,sph(.03),goldM,0,y,.222));
- const vm=M(0xc99f84);vm.transparent=true;p.all.push(vm);
- const vs=new G.Shape();vs.moveTo(-.14,3.2);vs.lineTo(.14,3.2);vs.lineTo(0,2.52);vs.closePath();put(p.g,new G.ShapeGeometry(vs),vm,0,0,.245);
- put(p.g,new G.PlaneGeometry(.13,.13),logoM,-.2,2.62,.236);
- p=mk('shirt');m=p.cm();
- put(p.g,lathe(.02),m,0,0,0,o=>o.scale.z=.6);
- [-1,1].forEach(s=>{put(p.g,cyl(.085,.068,1.55),m,s*.52,2.28,0,o=>o.rotation.z=s*.05);put(p.g,sph(.135),m,s*.43,3.05,0)});
- put(p.g,new G.TorusGeometry(.12,.035,10,28),m,0,3.3,0,o=>o.rotation.x=Math.PI/2);
- p=mk('tie');m=p.cm();
- const ts=new G.Shape();ts.moveTo(-.04,3.18);ts.lineTo(.04,3.18);ts.lineTo(.03,3.08);ts.lineTo(.075,2.55);ts.lineTo(0,2.4);ts.lineTo(-.075,2.55);ts.lineTo(-.03,3.08);ts.closePath();
- const tie=put(p.g,new G.ShapeGeometry(ts),m,0,0,.25);
- const pin=P.pin={g:new G.Group(),mats:[],all:[],t:0,base:new G.Vector3(-.17,2.98,.24)};rig.add(pin.g);
- put(pin.g,cyl(.065,.065,.02),goldM,0,0,0,o=>o.rotation.x=Math.PI/2);put(pin.g,new G.PlaneGeometry(.1,.1),logoM,0,0,.013);
+ /* ---- the model ---- */
+ const head=new G.Group();head.position.set(0,3.78,0);rig.add(head);
+ const hg=new G.SphereGeometry(.26,40,32),hp=hg.attributes.position;
+ for(let i=0;i<hp.count;i++){const x=hp.getX(i),y=hp.getY(i),z=hp.getZ(i),k=y<0?1-.2*Math.pow(-y/.26,1.6):1;hp.setXYZ(i,x*.88*k,y*1.08,z*.95*k)}hg.computeVertexNormals();
+ put(head,hg,skin,0,0,0);
+ put(head,new G.SphereGeometry(.29,40,24,0,Math.PI*2,0,Math.PI*.55),hairM,0,.015,-.01,o=>{o.scale.set(.84,.98,.9);o.rotation.x=-.5});
+ [-1,1].forEach(s=>{put(head,sph(.03),eyeW,.085*s,.02,.222,o=>o.scale.set(1,.7,.5));put(head,sph(.016),eyeD,.085*s,.02,.236);
+  put(head,new G.BoxGeometry(.07,.012,.016),brow,.085*s,.1,.226,o=>o.rotation.z=-.12*s);put(head,sph(.04),skin,.232*s,0,0,o=>o.scale.set(.5,1.2,.9))});
+ put(head,sph(.032),skin,0,-.04,.26,o=>o.scale.set(.9,1.3,1.1));put(head,sph(.03),lip,0,-.14,.212,o=>o.scale.set(2,.4,.7));
+ put2(rig,lim(v(0,3.56,0),v(0,3.28,0),.085,.095),skin,v(0,3.56,0),v(0,3.28,0));
+ const BT=[[1.78,.33],[1.95,.37],[2.3,.31],[2.6,.335],[2.9,.38],[3.15,.4],[3.3,.3],[3.4,.12]];
+ put(rig,lt(BT,0),skin,0,0,0,o=>o.scale.z=.62);
+ put(rig,lt([[1.76,.345],[1.9,.37],[2.08,.34]],0),dk,0,0,0,o=>o.scale.z=.62);
+ [-1,1].forEach(s=>{
+  put(rig,sph(.105),skin,.47*s,3.2,0);
+  const A=v(.47*s,3.2,0),E=v(.56*s,2.5,.03),W=v(.58*s,1.85,.09),H=v(.585*s,1.74,.1);
+  put2(rig,lim(A,E,.1,.075),skin,A,E);put2(rig,lim(E,W,.075,.052),skin,E,W);
+  put2(rig,lim(W,H,.052,.046),skin,W,H);const F=v(.59*s,1.62,.115);put2(rig,lim(H,F,.046,.032),skin,H,F);
+  const T0=v(.545*s,1.78,.12),T1=v(.53*s,1.66,.15);put2(rig,lim(T0,T1,.02,.015),skin,T0,T1);
+  const a=v(.17*s,1.95,0),b=v(.12*s,.22,.02);put2(rig,lim(a,b,.16,.06),skin,a,b);
+  put(rig,sph(1),skin,.125*s,.06,.07,o=>o.scale.set(.065,.06,.17))});
+ put(sc,cyl(1.7,1.8,.14),M(0x1a1610,{metalness:.6,roughness:.35}),0,-.07,0,o=>o.receiveShadow=true);
+ put(sc,new G.TorusGeometry(1.72,.022,10,96),gm,0,0,0,o=>o.rotation.x=Math.PI/2);
+ /* ---- clothes ---- */
+ const logoM=new G.MeshBasicMaterial({map:new G.TextureLoader().load('logo.png'),transparent:true,side:G.DoubleSide}),P={},vees=[];
+ function mk(id){const g=new G.Group();rig.add(g);const p=P[id]={g,mats:[],all:[],t:0,slot:SLOT[id]};
+  p.cm=o=>{const m=M(PAL[SEL[p.slot].c],Object.assign({roughness:.82,bumpMap:fab,bumpScale:.5},o||{}));m.transparent=true;p.mats.push(m);p.all.push(m);return m};return p}
+ function sleeves(p,m,r1,r2,frac,cu){[-1,1].forEach(s=>{const A=v(.47*s,3.2,0),W=v(.585*s,1.92,.09),E=A.clone().lerp(W,frac);put2(p.g,lim(A,E,r1,r2,true),m,A,E);if(cu)cuff(p.g,m,E,E.clone().sub(A),r2,.016)})}
+ function legs(p,m,r1,r2,frac,cu){[-1,1].forEach(s=>{const a=v(.17*s,2,0),e=a.clone().lerp(v(.12*s,.16,.02),frac);put2(p.g,lim(a,e,r1,r2,true),m,a,e);if(cu)cuff(p.g,m,e,e.clone().sub(a),r2,.014)})}
+ function wing(p,m,y,z,sc2){[-1,1].forEach(s=>{const sh=new G.Shape();sh.moveTo(0,0);sh.lineTo(.1*sc2,.015);sh.lineTo(.045*sc2,-.12*sc2);sh.closePath();put(p.g,new G.ShapeGeometry(sh),m,0,y,z,o=>{o.scale.x=s;o.rotation.x=.25})})}
+ function plane(par,pts,mat,y0,z0,rot){const sh=new G.Shape();pts.forEach((q,i)=>i?sh.lineTo(q[0],q[1]-y0):sh.moveTo(q[0],q[1]-y0));sh.closePath();return put(par,new G.ShapeGeometry(sh),mat,0,y0,z0,o=>o.rotation.x=rot)}
+ const veeMat=()=>{const m=M(0xc99a77);m.transparent=true;vees.push(m);return m};
+ /* dress shirt */
+ let p=mk('shirt'),m=p.cm();
+ put(p.g,lt(BT.slice(1),.025),m,0,0,0,o=>o.scale.z=.62);sleeves(p,m,.125,.085,1,true);
+ put(p.g,new G.TorusGeometry(.12,.026,10,32),m,0,3.44,0,o=>o.rotation.x=Math.PI/2);wing(p,m,3.43,.135,1);
+ [[3.15,.268],[2.9,.255],[2.65,.227],[2.4,.217]].forEach(q=>put(p.g,sph(.014),wb,0,q[0],q[1]));
+ /* polo */
+ p=mk('polo');m=p.cm();
+ put(p.g,lt(BT.slice(1),.025),m,0,0,0,o=>o.scale.z=.62);sleeves(p,m,.13,.112,.38,true);
+ put(p.g,new G.TorusGeometry(.125,.03,10,32),m,0,3.44,0,o=>o.rotation.x=Math.PI/2);wing(p,m,3.43,.14,1.2);
+ put(p.g,new G.BoxGeometry(.035,.2,.008),m,0,3.2,.27,o=>o.rotation.x=.1);[3.28,3.16].forEach(y=>put(p.g,sph(.013),wb,0,y,.276));
+ /* barong */
+ p=mk('barong');m=p.cm({roughness:.9});
+ put(p.g,lt([[1.7,.44],[1.95,.43],[2.3,.375],[2.6,.375],[2.9,.405],[3.15,.425],[3.3,.32],[3.4,.14]],0),m,0,0,0,o=>o.scale.z=.62);sleeves(p,m,.135,.09,1,true);
+ put(p.g,new G.TorusGeometry(.115,.03,10,32),m,0,3.44,0,o=>o.rotation.x=Math.PI/2);
+ [-1,1].forEach(s=>put(p.g,new G.BoxGeometry(.012,1.15,.006),gm,.08*s,2.55,.268,o=>o.rotation.x=.04));
+ put(p.g,new G.PlaneGeometry(.12,.12),logoM,.2,2.95,.272);
+ /* blazer */
+ p=mk('blazer');m=p.cm();
+ put(p.g,lt([[1.55,.48],[1.8,.45],[2.3,.385],[2.6,.395],[2.9,.44],[3.15,.455],[3.3,.37],[3.42,.18]],0),m,0,0,0,o=>o.scale.z=.62);sleeves(p,m,.15,.105,.9,false);
+ put(p.g,new G.TorusGeometry(.175,.032,10,32),m,0,3.4,0,o=>o.rotation.x=Math.PI/2);
+ plane(p.g,[[-.06,3.36],[.06,3.36],[0,2.46]],veeMat(),2.46,.248,.07);
+ [-1,1].forEach(s=>{const sh=new G.Shape();[[.06,3.36],[.2,3.29],[.215,3.1],[.16,3.03],[.09,2.46],[.005,2.46]].forEach((q,i)=>i?sh.lineTo(q[0],q[1]-2.46):sh.moveTo(q[0],q[1]-2.46));sh.closePath();
+  put(p.g,new G.ExtrudeGeometry(sh,{depth:.03,bevelEnabled:false}),m,0,2.46,.247,o=>{o.scale.x=s;o.rotation.x=.07})});
+ [2.4,2.2].forEach(y=>put(p.g,sph(.03),gm,0,y,.255));
+ put(p.g,new G.PlaneGeometry(.11,.11),logoM,-.2,2.62,.262,o=>o.rotation.x=.04);
+ /* waistcoat */
+ p=mk('vest');m=p.cm({roughness:.7});
+ put(p.g,lt([[1.75,.42],[2.3,.37],[2.6,.375],[2.9,.42],[3.1,.435]],0),m,0,0,0,o=>o.scale.z=.62);
+ [-1,1].forEach(s=>{const a=v(.25*s,3.1,.2),b=v(.2*s,3.36,0),c=v(.25*s,3.1,-.2);put2(p.g,lim(a,b,.03,.028),m,a,b);put2(p.g,lim(b,c,.028,.03),m,b,c)});
+ plane(p.g,[[-.15,3.1],[.15,3.1],[0,2.3]],veeMat(),2.3,.236,.052);
+ [2.5,2.35,2.2].forEach(y=>put(p.g,sph(.018),gm,0,y,.245));
+ /* slacks / chinos / shorts */
+ const PP=[[1.76,.4],[2,.405],[2.3,.35],[2.42,.345]];
+ function waist(p,m){put(p.g,lt(PP,0),m,0,0,0,o=>o.scale.z=.62);put(p.g,new G.TorusGeometry(.352,.02,8,40),bm,0,2.36,0,o=>{o.rotation.x=Math.PI/2;o.scale.y=.62});put(p.g,new G.BoxGeometry(.075,.055,.014),gm,0,2.36,.234)}
+ p=mk('slacks');m=p.cm({roughness:.78});waist(p,m);legs(p,m,.185,.125,1,false);
+ p=mk('chinos');m=p.cm({roughness:.9});waist(p,m);legs(p,m,.18,.1,.968,true);
+ p=mk('shorts');m=p.cm({roughness:.9});waist(p,m);legs(p,m,.19,.178,.47,true);
+ /* shoes */
+ const sole=M(0x0b0a09,{roughness:.6}),soleW=M(0xf1ede2,{roughness:.6});
+ p=mk('oxford');m=p.cm({roughness:.28,clearcoat:.7,clearcoatRoughness:.2,bumpMap:null});
+ [-1,1].forEach(s=>{put(p.g,sph(1),m,.125*s,.08,.08,o=>o.scale.set(.11,.08,.26));put(p.g,sph(1),sole,.125*s,.03,.08,o=>o.scale.set(.115,.03,.27));
+  put(p.g,new G.BoxGeometry(.13,.05,.11),sole,.12*s,.025,-.07);const a=v(.12*s,.28,.02),b=v(.12*s,.1,.02);put2(p.g,lim(a,b,.075,.08,true),m,a,b)});
+ p=mk('sneak');m=p.cm({roughness:.55,bumpMap:null});
+ [-1,1].forEach(s=>{put(p.g,sph(1),m,.125*s,.095,.08,o=>o.scale.set(.12,.095,.28));put(p.g,sph(1),soleW,.125*s,.03,.08,o=>o.scale.set(.125,.035,.29));
+  const a=v(.12*s,.3,.02),b=v(.12*s,.1,.02);put2(p.g,lim(a,b,.082,.088,true),m,a,b);put(p.g,sph(1),wb,.125*s,.12,.17,o=>o.scale.set(.06,.03,.1))});
+ /* tie + pin */
+ p=mk('tie');m=p.cm({roughness:.45});
+ const ts=new G.Shape();ts.moveTo(-.04,.78);ts.lineTo(.04,.78);ts.lineTo(.03,.68);ts.lineTo(.075,.15);ts.lineTo(0,0);ts.lineTo(-.075,.15);ts.lineTo(-.03,.68);ts.closePath();
+ const tie=put(p.g,new G.ShapeGeometry(ts),m,0,2.4,.22);
+ p=mk('pin');const pinH=new G.Group();p.g.add(pinH);
+ put(pinH,cyl(.065,.065,.02),gm,0,0,0,o=>o.rotation.x=Math.PI/2);put(pinH,new G.PlaneGeometry(.1,.1),logoM,0,0,.013);
  /* effects */
- const ring=new G.Mesh(new G.TorusGeometry(.7,.015,8,72),new G.MeshBasicMaterial({color:0xf0d78c,transparent:true,opacity:0}));ring.rotation.x=Math.PI/2;ring.position.y=2.3;sc.add(ring);
- const N=90,pp=new Float32Array(N*3);for(let i=0;i<N;i++){const a=Math.random()*6.28,r=1+Math.random()*2.4;pp[i*3]=Math.cos(a)*r;pp[i*3+1]=Math.random()*4.5-.4;pp[i*3+2]=Math.sin(a)*r*.6}
+ const rg=new G.Mesh(new G.TorusGeometry(.8,.015,8,72),new G.MeshBasicMaterial({color:0xf0d78c,transparent:true,opacity:0}));rg.rotation.x=Math.PI/2;sc.add(rg);
+ const N=110,pp=new Float32Array(N*3);for(let i=0;i<N;i++){const a=Math.random()*6.28,r=1+Math.random()*2.4;pp[i*3]=Math.cos(a)*r;pp[i*3+1]=Math.random()*4.6-.2;pp[i*3+2]=Math.sin(a)*r*.6}
  const pg=new G.BufferGeometry();pg.setAttribute('position',new G.BufferAttribute(pp,3));
  const dust=new G.Points(pg,new G.PointsMaterial({color:0xf0d78c,size:.035,transparent:true,opacity:.7,depthWrite:false}));sc.add(dust);
- let pulse=0,spinT=0,down=false,lx=0;const tc=new G.Color(),skinC=new G.Color(0xc99f84);
- fitBurst=n=>{pulse=1;spinT+=Math.PI*n};
+ /* camera + interaction */
+ const FOC={full:{ly:1.4,z:11},upper:{ly:2.55,z:7.6},pants:{ly:.95,z:8.6},shoes:{ly:.4,z:7.4}};
+ let foc=FOC.full,ft,pulse=0,spinT=0,down=false,lx=0;const cur={ly:1.4,z:11},tc=new G.Color(),tg=new G.Color();
+ fitBurst=(slot,spin)=>{pulse=1;if(spin)spinT+=Math.PI*2;rg.position.y=({top:2.9,jacket:2.7,tie:2.8,pin:3,pants:1.2,shoes:.2})[slot]||2;
+  foc=FOC[slot=='pants'?'pants':slot=='shoes'?'shoes':'upper'];clearTimeout(ft);ft=setTimeout(()=>foc=FOC.full,2600)};
  cv.addEventListener('pointerdown',e=>{down=true;lx=e.clientX;cv.setPointerCapture(e.pointerId)});
  cv.addEventListener('pointermove',e=>{if(down){spinT+=(e.clientX-lx)*.012;lx=e.clientX}});
  addEventListener('pointerup',()=>down=false);
+ const tieCfg=()=>SEL.jacket.id=='blazer'?[.253,.07]:SEL.jacket.id=='vest'?[.24,.052]:SEL.top.id?[.222,.068]:[.208,.068];
+ const pinZ=()=>SEL.jacket.id=='blazer'?.325:SEL.jacket.id=='vest'?.277:SEL.top.id?.268:.25;
  function frame(t){
-  Object.keys(P).forEach(id=>{const q=P[id],on=FIT[id].on?1:0;q.t+=(on-q.t)*.09;if(Math.abs(on-q.t)<.003)q.t=on;
-   q.g.visible=q.t>.01;q.g.position.set(q.base.x,q.base.y+(1-q.t)*1.2,q.base.z);q.g.scale.setScalar(1+(1-q.t)*.2);
-   tc.set(PAL[FIT[id].c]);q.mats.forEach(x=>x.color.lerp(tc,.14));q.all.forEach(x=>{x.opacity=Math.min(1,q.t*1.5);x.transparent=q.t<1})});
-  vm.color.lerp(FIT.shirt.on?tc.set(PAL[FIT.shirt.c]):skinC,.14);
-  const bz=FIT.blazer.on;tie.position.z+=((bz?.252:.207)-tie.position.z)*.1;pin.base.z+=((bz?.24:.212)-pin.base.z)*.1;pin.g.rotation.y=(1-pin.t)*6;
-  rig.rotation.y+=((spinT+(down?0:Math.sin(t*.45)*.3))-rig.rotation.y)*.07;
-  pulse*=.94;ring.material.opacity=pulse*.8;ring.scale.setScalar(1+(1-pulse)*3);dust.rotation.y=t*.08;rl.position.x=-4+Math.sin(t)*2}
+  cur.ly+=(foc.ly-cur.ly)*.06;cur.z+=(foc.z-cur.z)*.06;cam.position.set(0,cur.ly+.5,cur.z);cam.lookAt(0,cur.ly,0);
+  tg.set(TONES[fitSkin]);skin.color.lerp(tg,.12);
+  Object.keys(P).forEach(id=>{const q=P[id],sl=SEL[q.slot],on=sl.id==id?1:0;q.t+=(on-q.t)*.1;if(Math.abs(on-q.t)<.003)q.t=on;const e=q.t;
+   q.g.visible=e>.01;q.g.position.y=(1-e)*1.1;q.g.rotation.y=(1-e)*(on?-.9:.9);q.g.scale.setScalar(.9+.1*e);
+   tc.set(PAL[sl.c]);q.mats.forEach(x=>x.color.lerp(tc,.15));q.all.forEach(x=>{x.opacity=Math.min(1,e*1.6);x.transparent=e<1})});
+  vees.forEach(x=>{x.opacity=Math.min(1,Math.max(P.blazer.t,P.vest.t)*1.6)});
+  tc.set(PAL[SEL.top.c]);vees.forEach(x=>x.color.lerp(SEL.top.id?tc:skin.color,.15));
+  const tcg=tieCfg();tie.position.z+=(tcg[0]-tie.position.z)*.12;tie.rotation.x+=(tcg[1]-tie.rotation.x)*.12;
+  pinH.position.set(.2,3,pinH.position.z+(pinZ()-pinH.position.z)*.12);pinH.rotation.y=(1-P.pin.t)*6;
+  rig.rotation.y+=((spinT+(down?0:Math.sin(t*.45)*.3))-rig.rotation.y)*.07;head.rotation.y=Math.sin(t*.6)*.18;rig.scale.y=1+Math.sin(t*1.6)*.004;
+  pulse*=.945;rg.material.opacity=pulse*.85;rg.scale.setScalar(1+(1-pulse)*3.2);dust.rotation.y=t*.08;dust.material.size=.035+pulse*.05;rim.position.x=-4+Math.sin(t)*2}
  function size(){const w=cv.clientWidth,h=cv.clientHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
  size();addEventListener('resize',size);
  let vis=false;new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(cv);
