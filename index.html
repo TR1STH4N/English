@@ -170,6 +170,22 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .js .giant.vis span{opacity:1;transform:none}
 @media(hover:hover) and (pointer:fine){.giant.vis span:hover{color:var(--gold);transform:translateY(-12px);transition-delay:0ms}}
 
+.fit{position:relative;height:min(80vh,740px);border:1px solid var(--line);border-radius:22px;overflow:hidden;background:radial-gradient(55% 60% at 50% 58%,#30260f,#0c0a07 72%)}
+#fitgl{position:absolute;inset:0;width:100%;height:100%;touch-action:pan-y;cursor:grab}#fitgl:active{cursor:grabbing}
+.fit-l{position:absolute;left:26px;top:24px;display:grid;gap:4px;pointer-events:none}
+.fit-l b{font:600 40px var(--serif);color:var(--gold2)}.fit-l small,.fit-r small{color:var(--mute);font-size:13px}
+.fit-r{position:absolute;right:24px;top:24px;display:grid;gap:10px;justify-items:end}
+.fit-b{position:absolute;left:0;right:0;bottom:22px;display:grid;gap:10px;justify-items:center;padding:0 12px}
+.pr{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.pill{padding:12px 22px;border-radius:99px;border:1px solid #4a3d1c;background:rgba(10,9,8,.72);color:var(--mute);font:500 14px var(--sans);cursor:pointer;backdrop-filter:blur(8px);transition:transform .16s var(--out),background .25s ease,color .2s ease,border-color .2s ease,box-shadow .25s ease}
+.pill.sm{padding:8px 15px;font-size:12px}
+.pill[aria-pressed=true]{background:linear-gradient(120deg,var(--gold),var(--gold2));color:#1a1405;border-color:transparent}
+.pill.act{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--gold2)}
+.pill:active{transform:scale(.95)}
+@media(hover:hover) and (pointer:fine){.pill:hover{border-color:var(--gold);color:var(--ivory)}.pill[aria-pressed=true]:hover{color:#1a1405}}
+.fit-act{display:flex;justify-content:center;margin-top:26px}
+@media(max-width:700px){.fit{height:78vh}.fit-r{left:12px;right:12px;top:auto;bottom:122px;justify-items:center}.fit-l{left:16px;top:16px}.fit-l b{font-size:30px}.pill{padding:10px 16px}}
+
 </style>
 </head>
 <body>
@@ -179,7 +195,7 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 
 <nav><div class="wrap">
   <a class="brand" href="#top"><img src="logo.png" alt="">CENTOCINQUANTA</a>
-  <div class="links"><a href="#crest">Crest</a><a href="#collection">Collection</a><a href="#order">Order</a><a href="#projects">Labs</a>
+  <div class="links"><a href="#crest">Crest</a><a href="#fitting">Fitting</a><a href="#collection">Collection</a><a href="#order">Order</a><a href="#projects">Labs</a>
   <button class="btn keep" id="cartBtn" aria-label="Open order">Order <b id="count">0</b></button></div>
 </div></nav>
 
@@ -201,6 +217,15 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 </div></section>
 
 <div class="mq"><div class="mt" data-dir="-1"><span>CENTOCINQUANTA ✦ FORMAL ✦ CREST ✦ CENTOCINQUANTA ✦ FORMAL ✦ CREST ✦ CENTOCINQUANTA ✦ FORMAL ✦ CREST ✦ </span></div><div class="mt out" data-dir="1"><span>PANTHER ✦ GOLD ✦ TAILORED ✦ PANTHER ✦ GOLD ✦ TAILORED ✦ PANTHER ✦ GOLD ✦ TAILORED ✦ </span></div></div>
+
+<section class="s" id="fitting" data-pose="0.9,0.8,0.22,2.6"><div class="wrap">
+  <div class="head"><div><div class="eyebrow rv">Fitting room</div><h2 data-split>Dress the model.</h2></div><p class="lead rv">Tap a piece and watch it land on the model. Drag the stage to turn him around.</p></div>
+  <div class="fit rv"><canvas id="fitgl"></canvas>
+    <div class="fit-l"><span class="eyebrow">Your outfit</span><b id="fitTotal">₱0</b><small id="fitList"></small></div>
+    <div class="fit-r"><small id="fitSwL"></small><div class="sw" id="fitSw"></div><small>Size</small><div class="sz" id="fitSz"></div></div>
+    <div class="fit-b" id="fitPills"></div></div>
+  <div class="fit-act rv"><button class="btn fill mag" id="fitAdd">Add outfit to order</button></div>
+</div></section>
 
 <section class="s" id="collection" data-pose="0.8,0.62,0.3,3"><div class="wrap">
   <div class="head"><div><div class="eyebrow rv">Collection 01</div><h2 data-split>Four pieces. One crest.</h2></div><p class="lead rv">Pick a cloth and a size, then add it to your order. Prototype checkout for our presentation.</p></div>
@@ -228,7 +253,7 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 
 <section class="s cta" data-pose="0,0.3,1.35,7"><div class="wrap">
   <h2 data-split>Wear the crest.</h2>
-  <div class="rv" style="--d:300ms"><a class="btn fill mag" href="#collection">Start your order</a></div>
+  <div class="rv" style="--d:300ms"><a class="btn fill mag" href="#fitting">Start your order</a></div>
 </div></section>
 </main>
 
@@ -337,6 +362,7 @@ const gi=$('.giant');if(gi){let n=0;gi.innerHTML=[...gi.textContent].map(ch=>`<s
 $$('.links a').forEach(a=>{const o=a.textContent;a.addEventListener('pointerenter',()=>{if(rm)return;let k=0;const id=setInterval(()=>{a.textContent=[...o].map((ch,i)=>i<k?ch:'ABCDEFGHJKLMNPRSTUVWXYZ'[Math.random()*23|0]).join('');if(++k>o.length){a.textContent=o;clearInterval(id)}},40)})});
 /* ---------- shop ---------- */
 const COLORS={Onyx:'#171717',Navy:'#16243f',Oxblood:'#4d1420',Forest:'#143429'};
+const PAL={...COLORS,Ivory:'#e6dcc6'};
 const PRODUCTS=[
  {id:'blazer',name:'Crest Blazer',note:'Wool blend · gold buttons',price:8900,sizes:1,
   svg:'<path class="fab" d="M58 24l28-10 14 52 14-52 28 10 38 40-6 160h-62V96l-12-12-12 12v128H26L20 64z"/><path d="M86 14l14 52 14-52M100 66l-14 30M100 66l14 30" stroke="#cfa94e" stroke-width="1.5" fill="none"/><circle cx="100" cy="150" r="3.2" fill="#cfa94e"/><circle cx="100" cy="180" r="3.2" fill="#cfa94e"/><image href="logo.png" x="124" y="104" width="26" height="26"/>'},
@@ -357,17 +383,17 @@ $('#grid').innerHTML=PRODUCTS.map((p,i)=>`<div class="card rv" data-id="${p.id}"
 $$('.card').forEach(card=>{
  const id=card.dataset.id,t=$('.tilt',card);
  card.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
-  if(b.dataset.c){state.sel[id].c=b.dataset.c;t.style.setProperty('--c',COLORS[b.dataset.c]);$$('.sw button',card).forEach(x=>x.setAttribute('aria-pressed',x===b))}
+  if(b.dataset.c){wear(id,{c:b.dataset.c,on:true});state.sel[id].c=b.dataset.c;t.style.setProperty('--c',COLORS[b.dataset.c]);$$('.sw button',card).forEach(x=>x.setAttribute('aria-pressed',x===b))}
   else if(b.dataset.s){state.sel[id].s=b.dataset.s;$$('.sz button',card).forEach(x=>x.setAttribute('aria-pressed',x===b))}
-  else if(b.classList.contains('add')){add(id);toast('Added to your order')}});
+  else if(b.classList.contains('add')){add(id);wear(id,{c:state.sel[id].c,on:true});toast('Added to your order')}});
  if(fine){card.addEventListener('pointermove',e=>{const r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
    t.style.setProperty('--ry',(x-.5)*16+'deg');t.style.setProperty('--rx',-(y-.5)*16+'deg');t.style.setProperty('--mx',x*100+'%');t.style.setProperty('--my',y*100+'%')});
   card.addEventListener('pointerleave',()=>{t.style.setProperty('--ry','0deg');t.style.setProperty('--rx','0deg')})}});
-function add(id){const p=PRODUCTS.find(x=>x.id==id),s=state.sel[id],size=p.sizes?s.s:'—',k=id+s.c+size,ex=state.cart.find(i=>i.k==k);
- ex?ex.q++:state.cart.push({k,id,name:p.name,price:p.price,c:s.c,size,q:1});render();const b=$('#count');b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}
+function addItem(id,c,size){const p=PRODUCTS.find(x=>x.id==id),k=id+c+size,ex=state.cart.find(i=>i.k==k);ex?ex.q++:state.cart.push({k,id,name:p.name,price:p.price,c,size,q:1});render();const b=$('#count');b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}
+function add(id){const p=PRODUCTS.find(x=>x.id==id),s=state.sel[id];addItem(id,s.c,p.sizes?s.s:'—')}
 function render(){const n=state.cart.reduce((a,i)=>a+i.q,0),tot=state.cart.reduce((a,i)=>a+i.q*i.price,0);
  $('#count').textContent=n;$('#total').textContent=php(tot);$('#checkout').disabled=!n;$('#checkout').style.opacity=n?1:.4;
- $('#items').innerHTML=n?state.cart.map(i=>`<div class="it" style="--c:${COLORS[i.c]}"><i><img src="logo.png" alt=""></i><div><b>${i.name}</b><small>${i.c} · ${i.size}</small><div class="qty"><button data-k="${i.k}" data-d="-1" aria-label="Less">−</button>${i.q}<button data-k="${i.k}" data-d="1" aria-label="More">+</button></div></div><div class="price">${php(i.q*i.price)}</div></div>`).join(''):'<p class="empty">Your order is empty.</p>'}
+ $('#items').innerHTML=n?state.cart.map(i=>`<div class="it" style="--c:${PAL[i.c]}"><i><img src="logo.png" alt=""></i><div><b>${i.name}</b><small>${i.c} · ${i.size}</small><div class="qty"><button data-k="${i.k}" data-d="-1" aria-label="Less">−</button>${i.q}<button data-k="${i.k}" data-d="1" aria-label="More">+</button></div></div><div class="price">${php(i.q*i.price)}</div></div>`).join(''):'<p class="empty">Your order is empty.</p>'}
 $('#items').addEventListener('click',e=>{const b=e.target.closest('button[data-k]');if(!b)return;const i=state.cart.find(x=>x.k==b.dataset.k);i.q+=+b.dataset.d;if(i.q<1)state.cart=state.cart.filter(x=>x!==i);render()});
 const drawer=$('#drawer'),veil=$('#veil'),modal=$('#modal');
 function openDrawer(o=true){drawer.classList.toggle('on',o);veil.classList.toggle('on',o);drawer.setAttribute('aria-hidden',!o)}
@@ -382,6 +408,100 @@ $('#checkout').onclick=()=>{if(!state.cart.length)return;openDrawer(false);veil.
 let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1600)}
 render();
 
+
+/* ---------- fitting room (3D model) ---------- */
+const FIT={blazer:{on:true,c:'Onyx'},shirt:{on:true,c:'Ivory'},tie:{on:true,c:'Oxblood'},pin:{on:false,c:'Onyx'}};
+const FITN={blazer:'Blazer',shirt:'Shirt',tie:'Tie',pin:'Pin'};
+let fitSize='M',fitAct='blazer',fitBurst=()=>{};
+function wear(id,p){if(!FIT[id])return;const was=FIT[id].on;Object.assign(FIT[id],p);if(p.on)fitAct=id;fitUI();fitBurst(was!==FIT[id].on?2:.6)}
+function fitUI(){
+ $$('#fitPills [data-p]').forEach(b=>{const id=b.dataset.p;b.setAttribute('aria-pressed',FIT[id].on);b.classList.toggle('act',id==fitAct&&FIT[id].on)});
+ $$('#fitSw button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c==FIT[fitAct].c));
+ $$('#fitSz button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s==fitSize));
+ const on=Object.keys(FIT).filter(k=>FIT[k].on);
+ $('#fitTotal').textContent=php(on.reduce((a,k)=>a+PRODUCTS.find(p=>p.id==k).price,0));
+ $('#fitList').textContent=on.length?on.map(k=>FITN[k]).join(' · '):'Nothing yet';
+ $('#fitSwL').textContent='Colour · '+FITN[fitAct]}
+const PRE={Boardroom:{blazer:['Onyx',1],shirt:['Ivory',1],tie:['Oxblood',1],pin:['Onyx',1]},Gala:{blazer:['Navy',1],shirt:['Ivory',1],tie:['Onyx',1],pin:['Onyx',1]},Weekend:{blazer:['Onyx',0],shirt:['Forest',1],tie:['Onyx',0],pin:['Onyx',1]},Clear:{blazer:['Onyx',0],shirt:['Ivory',0],tie:['Onyx',0],pin:['Onyx',0]}};
+function preset(n){['shirt','blazer','tie','pin'].forEach((id,i)=>setTimeout(()=>wear(id,{c:PRE[n][id][0],on:!!PRE[n][id][1]}),i*170))}
+$('#fitPills').innerHTML=`<div class="pr">${Object.keys(PRE).map(n=>`<button class="pill sm" data-pre="${n}">${n}</button>`).join('')}</div><div class="pr">${Object.keys(FITN).map(k=>`<button class="pill" data-p="${k}" aria-pressed="false">${FITN[k]}</button>`).join('')}</div>`;
+$('#fitSw').innerHTML=Object.entries(PAL).map(([n,c])=>`<button style="--c:${c}" data-c="${n}" aria-label="${n}"></button>`).join('');
+$('#fitSz').innerHTML=SIZES.map(s=>`<button data-s="${s}">${s}</button>`).join('');
+$('#fitPills').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.p)wear(b.dataset.p,{on:!FIT[b.dataset.p].on});else if(b.dataset.pre)preset(b.dataset.pre)});
+$('#fitSw').addEventListener('click',e=>{const b=e.target.closest('button');if(b)wear(fitAct,{c:b.dataset.c,on:true})});
+$('#fitSz').addEventListener('click',e=>{const b=e.target.closest('button');if(b){fitSize=b.dataset.s;fitUI()}});
+$('#fitAdd').onclick=()=>{const on=Object.keys(FIT).filter(k=>FIT[k].on);if(!on.length){toast('Dress the model first');return}
+ on.forEach(k=>addItem(k,FIT[k].c,PRODUCTS.find(p=>p.id==k).sizes?fitSize:'—'));toast('Outfit added to your order');fitBurst(4);setTimeout(()=>openDrawer(),900)};
+fitUI();
+(function(){
+ const cv=$('#fitgl');if(!cv||!window.THREE)return;const G=THREE;
+ let R;try{R=new G.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){return}
+ R.setPixelRatio(Math.min(devicePixelRatio,2));
+ const sc=new G.Scene(),cam=new G.PerspectiveCamera(30,1,.1,60);cam.position.set(0,2,11.5);cam.lookAt(0,1.7,0);
+ sc.add(new G.AmbientLight(0xffffff,.6));
+ const kl=new G.DirectionalLight(0xfff0d0,1.2);kl.position.set(3,6,7);sc.add(kl);
+ const rl=new G.PointLight(0xcfa94e,2,30);rl.position.set(-4,4,-4);sc.add(rl);
+ const M=(c,o)=>new G.MeshStandardMaterial(Object.assign({color:c,roughness:.7,metalness:.05,side:G.DoubleSide},o||{}));
+ const skin=M(0xc99f84,{roughness:.55}),hairM=M(0x15110d),trou=M(0x1a1a1c),shoe=M(0x080808,{roughness:.3,metalness:.4}),goldM=M(0xcfa94e,{metalness:.9,roughness:.25});
+ const rig=new G.Group();sc.add(rig);
+ const put=(par,geo,mat,x,y,z,fn)=>{const o=new G.Mesh(geo,mat);o.position.set(x,y,z);fn&&fn(o);par.add(o);return o};
+ const cyl=(a,b,h)=>new G.CylinderGeometry(a,b,h,24),sph=r=>new G.SphereGeometry(r,24,18);
+ /* the model */
+ put(rig,sph(.22),skin,0,3.62,.01,o=>o.scale.set(.95,1.12,1));
+ put(rig,new G.SphereGeometry(.236,28,14,0,Math.PI*2,0,Math.PI*.55),hairM,0,3.67,-.02,o=>o.rotation.x=-.25);
+ put(rig,cyl(.08,.09,.26),skin,0,3.38,0);
+ const prof=[[.26,1.6],[.3,2],[.28,2.45],[.33,2.9],[.3,3.2],[.1,3.3]];
+ const lathe=d=>new G.LatheGeometry(prof.map(p=>new G.Vector2(p[0]+d,p[1])),36);
+ put(rig,lathe(0),skin,0,0,0,o=>o.scale.z=.6);
+ put(rig,cyl(.3,.27,.5),trou,0,1.45,0,o=>o.scale.z=.62);
+ [-1,1].forEach(s=>{put(rig,sph(.13),skin,s*.43,3.05,0);put(rig,cyl(.075,.065,.85),skin,s*.5,2.62,0,o=>o.rotation.z=s*.06);
+  put(rig,cyl(.062,.05,.8),skin,s*.55,1.82,0,o=>o.rotation.z=s*.04);put(rig,sph(.07),skin,s*.57,1.38,0);
+  put(rig,cyl(.15,.115,1),trou,s*.15,1,0);put(rig,cyl(.115,.09,.95),trou,s*.15,.08,0);put(rig,new G.BoxGeometry(.2,.12,.42),shoe,s*.15,-.42,.08)});
+ put(sc,cyl(1.7,1.8,.14),M(0x100d09,{metalness:.7,roughness:.3}),0,-.56,0);
+ put(sc,new G.TorusGeometry(1.72,.022,10,96),goldM,0,-.48,0,o=>o.rotation.x=Math.PI/2);
+ /* clothes */
+ const tex=new G.TextureLoader().load('logo.png'),logoM=new G.MeshBasicMaterial({map:tex,transparent:true,side:G.DoubleSide}),P={};
+ function mk(id){const g=new G.Group();rig.add(g);const p=P[id]={g,mats:[],all:[],t:0,base:new G.Vector3()};
+  p.cm=()=>{const m=M(PAL[FIT[id].c],{roughness:.8});m.transparent=true;p.mats.push(m);p.all.push(m);return m};return p}
+ let p=mk('blazer'),m=p.cm();
+ put(p.g,lathe(.045),m,0,0,0,o=>o.scale.z=.62);
+ [-1,1].forEach(s=>{put(p.g,cyl(.105,.09,1.1),m,s*.52,2.5,0,o=>o.rotation.z=s*.06);put(p.g,sph(.15),m,s*.43,3.05,0)});
+ [2.5,2.28].forEach(y=>put(p.g,sph(.03),goldM,0,y,.222));
+ const vm=M(0xc99f84);vm.transparent=true;p.all.push(vm);
+ const vs=new G.Shape();vs.moveTo(-.14,3.2);vs.lineTo(.14,3.2);vs.lineTo(0,2.52);vs.closePath();put(p.g,new G.ShapeGeometry(vs),vm,0,0,.245);
+ put(p.g,new G.PlaneGeometry(.13,.13),logoM,-.2,2.62,.236);
+ p=mk('shirt');m=p.cm();
+ put(p.g,lathe(.02),m,0,0,0,o=>o.scale.z=.6);
+ [-1,1].forEach(s=>{put(p.g,cyl(.085,.068,1.55),m,s*.52,2.28,0,o=>o.rotation.z=s*.05);put(p.g,sph(.135),m,s*.43,3.05,0)});
+ put(p.g,new G.TorusGeometry(.12,.035,10,28),m,0,3.3,0,o=>o.rotation.x=Math.PI/2);
+ p=mk('tie');m=p.cm();
+ const ts=new G.Shape();ts.moveTo(-.04,3.18);ts.lineTo(.04,3.18);ts.lineTo(.03,3.08);ts.lineTo(.075,2.55);ts.lineTo(0,2.4);ts.lineTo(-.075,2.55);ts.lineTo(-.03,3.08);ts.closePath();
+ const tie=put(p.g,new G.ShapeGeometry(ts),m,0,0,.25);
+ const pin=P.pin={g:new G.Group(),mats:[],all:[],t:0,base:new G.Vector3(-.17,2.98,.24)};rig.add(pin.g);
+ put(pin.g,cyl(.065,.065,.02),goldM,0,0,0,o=>o.rotation.x=Math.PI/2);put(pin.g,new G.PlaneGeometry(.1,.1),logoM,0,0,.013);
+ /* effects */
+ const ring=new G.Mesh(new G.TorusGeometry(.7,.015,8,72),new G.MeshBasicMaterial({color:0xf0d78c,transparent:true,opacity:0}));ring.rotation.x=Math.PI/2;ring.position.y=2.3;sc.add(ring);
+ const N=90,pp=new Float32Array(N*3);for(let i=0;i<N;i++){const a=Math.random()*6.28,r=1+Math.random()*2.4;pp[i*3]=Math.cos(a)*r;pp[i*3+1]=Math.random()*4.5-.4;pp[i*3+2]=Math.sin(a)*r*.6}
+ const pg=new G.BufferGeometry();pg.setAttribute('position',new G.BufferAttribute(pp,3));
+ const dust=new G.Points(pg,new G.PointsMaterial({color:0xf0d78c,size:.035,transparent:true,opacity:.7,depthWrite:false}));sc.add(dust);
+ let pulse=0,spinT=0,down=false,lx=0;const tc=new G.Color(),skinC=new G.Color(0xc99f84);
+ fitBurst=n=>{pulse=1;spinT+=Math.PI*n};
+ cv.addEventListener('pointerdown',e=>{down=true;lx=e.clientX;cv.setPointerCapture(e.pointerId)});
+ cv.addEventListener('pointermove',e=>{if(down){spinT+=(e.clientX-lx)*.012;lx=e.clientX}});
+ addEventListener('pointerup',()=>down=false);
+ function frame(t){
+  Object.keys(P).forEach(id=>{const q=P[id],on=FIT[id].on?1:0;q.t+=(on-q.t)*.09;if(Math.abs(on-q.t)<.003)q.t=on;
+   q.g.visible=q.t>.01;q.g.position.set(q.base.x,q.base.y+(1-q.t)*1.2,q.base.z);q.g.scale.setScalar(1+(1-q.t)*.2);
+   tc.set(PAL[FIT[id].c]);q.mats.forEach(x=>x.color.lerp(tc,.14));q.all.forEach(x=>{x.opacity=Math.min(1,q.t*1.5);x.transparent=q.t<1})});
+  vm.color.lerp(FIT.shirt.on?tc.set(PAL[FIT.shirt.c]):skinC,.14);
+  const bz=FIT.blazer.on;tie.position.z+=((bz?.252:.207)-tie.position.z)*.1;pin.base.z+=((bz?.24:.212)-pin.base.z)*.1;pin.g.rotation.y=(1-pin.t)*6;
+  rig.rotation.y+=((spinT+(down?0:Math.sin(t*.45)*.3))-rig.rotation.y)*.07;
+  pulse*=.94;ring.material.opacity=pulse*.8;ring.scale.setScalar(1+(1-pulse)*3);dust.rotation.y=t*.08;rl.position.x=-4+Math.sin(t)*2}
+ function size(){const w=cv.clientWidth,h=cv.clientHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+ size();addEventListener('resize',size);
+ let vis=false;new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(cv);
+ const T0=performance.now();(function loop(){requestAnimationFrame(loop);if(!vis)return;frame((performance.now()-T0)/1000);R.render(sc,cam)})();
+})();
 </script>
 </body>
 </html>
