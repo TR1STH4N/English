@@ -93,17 +93,24 @@ section.s{padding:130px 0;min-height:100svh;display:grid;align-items:center}
 .mt{white-space:nowrap;font:600 clamp(48px,8vw,104px)/1.1 var(--serif);will-change:transform;width:max-content}
 .mt.out{-webkit-text-stroke:1px var(--gold);color:transparent}
 /* products */
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;perspective:1400px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;perspective:1400px}
 .card{transform-style:preserve-3d}
 .js .card.rv{opacity:0;transform:rotateX(26deg) translateY(60px) scale(.94);transform-origin:50% 100%}
 .card.rv.vis{opacity:1;transform:none}
-.tilt{position:relative;overflow:hidden;background:linear-gradient(160deg,#18150f,#0d0b08);border:1px solid var(--line);border-radius:var(--r);padding:18px;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s var(--out),border-color .2s ease}
+.tilt{position:relative;overflow:hidden;background:linear-gradient(160deg,#17140e,#0c0a07);border:1px solid var(--line);border-radius:var(--r);padding:0 0 18px;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s var(--out),border-color .2s ease}
+.tilt .art{border-radius:calc(var(--r) - 1px) calc(var(--r) - 1px) 0 0;margin:0}
+.tilt .info{padding:0 18px}
+.tilt .row{padding:0 18px}
+.tilt .btn{margin:0 18px;width:calc(100% - 36px)}
 .tilt::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(240,215,140,.18),transparent 60%);transition:opacity .25s ease}
 @media(hover:hover) and (pointer:fine){.tilt:hover{border-color:#6a5628}.tilt:hover::after{opacity:1}}
-.art{aspect-ratio:1;display:grid;place-items:center;filter:drop-shadow(0 22px 22px rgba(0,0,0,.55));transition:transform .4s var(--out)}
-@media(hover:hover) and (pointer:fine){.tilt:hover .art{transform:translateY(-6px) scale(1.04)}}
-.art svg{width:86%;height:auto;overflow:visible}
+.art{aspect-ratio:3/4;display:grid;place-items:center;filter:drop-shadow(0 28px 28px rgba(0,0,0,.7));transition:transform .4s var(--out);position:relative;border-radius:10px;overflow:hidden;background:radial-gradient(ellipse 80% 70% at 50% 40%,#1e1a0e,#0a0906)}
+.art::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(207,169,78,.06),transparent 70%);pointer-events:none}
+@media(hover:hover) and (pointer:fine){.tilt:hover .art{transform:translateY(-8px) scale(1.03)}}
+.art svg{width:72%;height:auto;overflow:visible;position:relative;z-index:1;filter:drop-shadow(0 12px 24px rgba(0,0,0,.8))}
 .art .fab{fill:var(--c);transition:fill .35s ease}
+/* dynamic colour tokens per color name */
+.art svg{--fc:var(--c);--fc2:color-mix(in srgb,var(--c) 80%,black);--fc3:color-mix(in srgb,var(--c) 60%,black);--sc:color-mix(in srgb,var(--c) 90%,black);--sc2:color-mix(in srgb,var(--c) 95%,black);--lc:color-mix(in srgb,var(--c) 85%,white 15%);--lc2:color-mix(in srgb,var(--c) 70%,black);--cc:#e8e2d2}
 .info{margin-top:10px}
 .info h3{font-size:24px}.info small{color:var(--mute);display:block;margin:2px 0 12px;font-size:13px}
 .price{font:600 20px var(--serif);color:var(--gold2)}
@@ -157,12 +164,32 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .done-box{text-align:center}.done-box img{width:120px;margin:0 auto 14px;animation:pulse 2s ease-in-out infinite}
 .toast{position:fixed;left:50%;bottom:28px;translate:-50% 0;background:var(--gold);color:#1a1405;font:600 14px var(--sans);padding:12px 20px;border-radius:99px;z-index:50;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s ease,transform .22s var(--out)}
 .toast.on{opacity:1;transform:none}
-@media(max-width:1000px){.grid,.steps{grid-template-columns:repeat(2,1fr)}.crest{grid-template-columns:1fr}.crest>span{display:none}.projects{grid-template-columns:1fr}.links a:not(.keep){display:none}#gl{opacity:.5}.hero h1{max-width:none}}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:repeat(2,1fr)}.crest{grid-template-columns:1fr}.crest>span{display:none}.projects{grid-template-columns:1fr}.links a:not(.keep){display:none}#gl{opacity:.5}.hero h1{max-width:none}}
 @media(max-width:560px){.grid,.steps{grid-template-columns:1fr}section.s{padding:90px 0}.hero .acts .btn{flex:1;justify-content:center}}
 @media(prefers-reduced-motion:reduce){*,*::before{transition-duration:.01ms!important;animation-duration:.01ms!important}.w i,.rv,.card.rv{transform:none!important}}
 
 .brand{font-size:17px;letter-spacing:.18em}
 @media(max-width:700px){.brand{font-size:0}}
+
+/* ── cinematic add-to-cart ── */
+#fly-layer{position:fixed;inset:0;z-index:999;pointer-events:none}
+.fly-orb{position:absolute;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));box-shadow:0 0 28px rgba(207,169,78,.7),0 0 60px rgba(207,169,78,.3);display:grid;place-items:center;overflow:hidden;will-change:transform,opacity}
+.fly-orb svg{width:30px;height:30px;fill:rgba(26,20,5,.8);stroke:none}
+.fly-orb::after{content:"";position:absolute;inset:-50%;background:conic-gradient(transparent 0deg,rgba(255,255,255,.5) 60deg,transparent 120deg);animation:orbspin .6s linear infinite}
+@keyframes orbspin{to{transform:rotate(360deg)}}
+.spark{position:absolute;width:4px;height:4px;border-radius:50%;pointer-events:none;animation:sparkfly var(--d,.6s) var(--ease,cubic-bezier(.2,.8,.4,1)) forwards}
+@keyframes sparkfly{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--tx,0px),var(--ty,-60px)) scale(0);opacity:0}}
+.ring-burst{position:absolute;border-radius:50%;border:2px solid var(--gold2);animation:ringpop .5s var(--out) forwards}
+@keyframes ringpop{0%{transform:scale(.4);opacity:.9}100%{transform:scale(2.4);opacity:0}}
+/* cart button glow burst */
+@keyframes cartglow{0%{box-shadow:0 0 0 0 rgba(207,169,78,0)}30%{box-shadow:0 0 0 12px rgba(207,169,78,.55),0 0 48px rgba(207,169,78,.35)}100%{box-shadow:0 0 0 0 rgba(207,169,78,0)}}
+.cart-pop{animation:cartglow .9s var(--out) forwards!important}
+/* card flash on add */
+@keyframes cardflash{0%{box-shadow:inset 0 0 0 1px rgba(207,169,78,0)}40%{box-shadow:inset 0 0 0 1.5px rgba(207,169,78,.8),0 0 32px rgba(207,169,78,.2)}100%{box-shadow:inset 0 0 0 1px rgba(207,169,78,0)}}
+.card-flash .tilt{animation:cardflash .9s var(--out) forwards}
+/* count badge special pop */
+@keyframes bigpop{0%{transform:scale(1)}35%{transform:scale(1.8) rotate(-8deg)}65%{transform:scale(.9) rotate(4deg)}100%{transform:scale(1) rotate(0)}}
+.count-pop{animation:bigpop .5s var(--out) forwards!important}
 #wipe{position:fixed;inset:0;z-index:95;background:linear-gradient(160deg,#cfa94e,#f0d78c);transform:translateY(101%);pointer-events:none}
 .giant{position:relative;z-index:2;background:var(--bg);text-align:center;font:600 clamp(34px,9.6vw,170px)/1 var(--serif);letter-spacing:.01em;padding:70px 12px 10px;overflow:hidden;white-space:nowrap;perspective:800px;-webkit-text-stroke:1px var(--gold);color:transparent}
 .giant span{display:inline-block;transition:color .3s ease,transform .35s var(--out)}
@@ -170,42 +197,9 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .js .giant.vis span{opacity:1;transform:none}
 @media(hover:hover) and (pointer:fine){.giant.vis span:hover{color:var(--gold);transform:translateY(-12px);transition-delay:0ms}}
 
-.fit{position:relative;height:min(80vh,740px);border:1px solid var(--line);border-radius:22px;overflow:hidden;background:radial-gradient(55% 60% at 50% 58%,#30260f,#0c0a07 72%)}
-#fitgl{position:absolute;inset:0;width:100%;height:100%;touch-action:pan-y;cursor:grab}#fitgl:active{cursor:grabbing}
-.fit-l{position:absolute;left:26px;top:24px;display:grid;gap:4px;pointer-events:none}
-.fit-l b{font:600 40px var(--serif);color:var(--gold2)}.fit-l small,.fit-r small{color:var(--mute);font-size:13px}
-.fit-r{position:absolute;right:24px;top:24px;display:grid;gap:10px;justify-items:end}
-.fit-b{position:absolute;left:0;right:0;bottom:22px;display:grid;gap:10px;justify-items:center;padding:0 12px}
-.pr{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.pill{padding:12px 22px;border-radius:99px;border:1px solid #4a3d1c;background:rgba(10,9,8,.72);color:var(--mute);font:500 14px var(--sans);cursor:pointer;backdrop-filter:blur(8px);transition:transform .16s var(--out),background .25s ease,color .2s ease,border-color .2s ease,box-shadow .25s ease}
-.pill.sm{padding:8px 15px;font-size:12px}
+/* fitting room CSS removed */
 .pill[aria-pressed=true]{background:linear-gradient(120deg,var(--gold),var(--gold2));color:#1a1405;border-color:transparent}
-.pill.act{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--gold2)}
-.pill:active{transform:scale(.95)}
-@media(hover:hover) and (pointer:fine){.pill:hover{border-color:var(--gold);color:var(--ivory)}.pill[aria-pressed=true]:hover{color:#1a1405}}
-.fit-act{display:flex;justify-content:center;margin-top:26px}
-@media(max-width:700px){.fit{height:78vh}.fit-r{left:12px;right:12px;top:auto;bottom:122px;justify-items:center}.fit-l{left:16px;top:16px}.fit-l b{font-size:30px}.pill{padding:10px 16px}}
-
-.fit{height:min(86vh,800px)}
-.fit-l{z-index:2;justify-items:start;gap:6px}
-.pre{display:flex;gap:6px;flex-wrap:wrap;max-width:270px;margin-top:8px}
-.tone{display:flex;gap:7px;margin-top:6px}
-.tone button{width:20px;height:20px;border-radius:50%;border:1px solid #666;background:var(--c);cursor:pointer;transition:transform .15s var(--out),box-shadow .2s ease}
-.tone button[aria-pressed=true]{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--gold)}.tone button:active{transform:scale(.9)}
-.fit-r{z-index:2}.fit-r .sw{flex-wrap:wrap;justify-content:flex-end;max-width:170px}
-.fit-b{padding:40px 14px 16px;background:linear-gradient(transparent,rgba(8,7,5,.92) 45%);gap:12px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.cards{display:flex;gap:10px;overflow-x:auto;max-width:100%;padding:8px 6px 6px;scroll-snap-type:x proximity;scrollbar-width:none}
-.cards::-webkit-scrollbar{display:none}
-.gc{flex:0 0 116px;scroll-snap-align:center;display:grid;gap:2px;justify-items:center;padding:12px 8px 10px;border-radius:16px;border:1px solid #3a2f16;background:rgba(18,15,10,.85);color:var(--c,#cbbf9f);cursor:pointer;backdrop-filter:blur(8px);transition:transform .22s var(--out),border-color .2s ease,background .25s ease,box-shadow .25s ease;animation:cardin .5s var(--out) backwards}
-.gc:nth-child(2){animation-delay:60ms}.gc:nth-child(3){animation-delay:120ms}.gc:nth-child(4){animation-delay:180ms}.gc:nth-child(5){animation-delay:240ms}
-@keyframes cardin{from{opacity:0;transform:translateY(18px) scale(.94)}}
-.gc svg{width:48px;height:48px;fill:currentColor;stroke:rgba(240,215,140,.6);stroke-width:1;transition:transform .35s var(--out)}
-.gc b{font:600 13px var(--sans);color:var(--ivory)}.gc small{color:var(--mute);font-size:12px}
-.gc[aria-pressed=true]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 14px 34px rgba(207,169,78,.22);background:rgba(38,29,12,.92)}
-@media(hover:hover) and (pointer:fine){.gc:hover{transform:translateY(-5px)}.gc:hover svg{transform:scale(1.14) rotate(-5deg)}}
-.gc:active{transform:scale(.96)}
-@media(max-width:700px){.fit{height:86vh}.fit-r{bottom:230px}.gc{flex-basis:100px}}
+/* more fitting room CSS removed */
 
 </style>
 </head>
@@ -216,7 +210,7 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 
 <nav><div class="wrap">
   <a class="brand" href="#top"><img src="logo.png" alt="">CENTOCINQUANTA</a>
-  <div class="links"><a href="#crest">Crest</a><a href="#fitting">Fitting</a><a href="#collection">Collection</a><a href="#order">Order</a><a href="#projects">Labs</a>
+  <div class="links"><a href="#crest">Crest</a><a href="#collection">Collection</a><a href="#order">Order</a><a href="#projects">Labs</a>
   <button class="btn keep" id="cartBtn" aria-label="Open order">Order <b id="count">0</b></button></div>
 </div></nav>
 
@@ -239,14 +233,7 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 
 <div class="mq"><div class="mt" data-dir="-1"><span>CENTOCINQUANTA ✦ FORMAL ✦ CREST ✦ CENTOCINQUANTA ✦ FORMAL ✦ CREST ✦ CENTOCINQUANTA ✦ FORMAL ✦ CREST ✦ </span></div><div class="mt out" data-dir="1"><span>PANTHER ✦ GOLD ✦ TAILORED ✦ PANTHER ✦ GOLD ✦ TAILORED ✦ PANTHER ✦ GOLD ✦ TAILORED ✦ </span></div></div>
 
-<section class="s" id="fitting" data-pose="0.9,0.8,0.22,2.6"><div class="wrap">
-  <div class="head"><div><div class="eyebrow rv">Fitting room</div><h2 data-split>Dress the model.</h2></div><p class="lead rv">Open the wardrobe, pick a shirt, pants, jacket or shoes, and watch the model change. Drag the stage to turn him around.</p></div>
-  <div class="fit rv"><canvas id="fitgl"></canvas>
-    <div class="fit-l"><span class="eyebrow">Your outfit</span><b id="fitTotal">₱0</b><small id="fitList"></small><div class="pre" id="fitPre"></div><div class="tone" id="fitSkin"></div></div>
-    <div class="fit-r"><small id="fitSwL"></small><div class="sw" id="fitSw"></div><small>Size</small><div class="sz" id="fitSz"></div></div>
-    <div class="fit-b"><div class="tabs" id="fitTabs"></div><div class="cards" id="fitCards"></div></div></div>
-  <div class="fit-act rv"><button class="btn fill mag" id="fitAdd">Add outfit to order</button></div>
-</div></section>
+
 
 <section class="s" id="collection" data-pose="0.8,0.62,0.3,3"><div class="wrap">
   <div class="head"><div><div class="eyebrow rv">Collection 01</div><h2 data-split>Four pieces. One crest.</h2></div><p class="lead rv">Pick a cloth and a size, then add it to your order. Prototype checkout for our presentation.</p></div>
@@ -289,6 +276,7 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 </aside>
 <div class="modal" id="modal" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
 <div class="toast" id="toast"></div>
+<div id="fly-layer" aria-hidden="true"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>setTimeout(function(){var d=document.body.classList.contains('done');if(!d){var l=document.getElementById('loader');if(l)l.style.display='none';document.documentElement.classList.remove('js')}},5200)</script>
@@ -386,31 +374,259 @@ const COLORS={Onyx:'#171717',Navy:'#16243f',Oxblood:'#4d1420',Forest:'#143429'};
 const PAL={...COLORS,Ivory:'#e6dcc6',Khaki:'#b39b6e',Slate:'#3b4048'};
 const PRODUCTS=[
  {id:'blazer',name:'Crest Blazer',note:'Wool blend · gold buttons',price:8900,sizes:1,
-  svg:'<path class="fab" d="M58 24l28-10 14 52 14-52 28 10 38 40-6 160h-62V96l-12-12-12 12v128H26L20 64z"/><path d="M86 14l14 52 14-52M100 66l-14 30M100 66l14 30" stroke="#cfa94e" stroke-width="1.5" fill="none"/><circle cx="100" cy="150" r="3.2" fill="#cfa94e"/><circle cx="100" cy="180" r="3.2" fill="#cfa94e"/><image href="logo.png" x="124" y="104" width="26" height="26"/>'},
+  svg:`<defs>
+  <linearGradient id="bg-blz" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#23200f"/><stop offset="100%" stop-color="#0d0b06"/></linearGradient>
+  <linearGradient id="fab-blz" x1="0" y1="0" x2="0.6" y2="1"><stop offset="0%" stop-color="var(--fc,#1a1a1a)"/><stop offset="60%" stop-color="var(--fc2,#111)"/><stop offset="100%" stop-color="var(--fc3,#0a0a0a)"/></linearGradient>
+  <linearGradient id="lap-l" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="var(--lc,#2a2a2a)"/><stop offset="100%" stop-color="var(--lc2,#111)"/></linearGradient>
+  <linearGradient id="lap-r" x1="1" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--lc,#2a2a2a)"/><stop offset="100%" stop-color="var(--lc2,#111)"/></linearGradient>
+  <linearGradient id="slv-l" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="var(--sc,#141414)"/><stop offset="100%" stop-color="var(--sc2,#1e1e1e)"/></linearGradient>
+  <linearGradient id="slv-r" x1="1" y1="0" x2="0" y2="0"><stop offset="0%" stop-color="var(--sc,#141414)"/><stop offset="100%" stop-color="var(--sc2,#1e1e1e)"/></linearGradient>
+  <filter id="sf"><feGaussianBlur stdDeviation="2"/></filter>
+  <filter id="sf2"><feGaussianBlur stdDeviation="1"/></filter>
+ </defs>
+ <rect x="2" y="2" width="196" height="236" rx="10" fill="url(#bg-blz)" opacity=".0"/>
+ <!-- shadow under garment -->
+ <ellipse cx="100" cy="230" rx="58" ry="8" fill="#000" opacity=".45" filter="url(#sf)"/>
+ <!-- body -->
+ <path class="fab" d="M42 60 Q38 55 36 48 L52 32 Q68 24 76 22 L100 36 L124 22 Q132 24 148 32 L164 48 Q162 55 158 60 L148 160 Q144 194 142 218 L58 218 Q56 194 52 160 Z" fill="url(#fab-blz)" stroke="none"/>
+ <!-- fabric sheen -->
+ <path d="M58 70 Q78 66 100 68 Q122 66 142 70" stroke="rgba(255,255,255,.06)" stroke-width="1" fill="none"/>
+ <path d="M56 100 Q78 96 100 98 Q122 96 144 100" stroke="rgba(255,255,255,.04)" stroke-width="1" fill="none"/>
+ <path d="M55 130 Q78 126 100 128 Q122 126 145 130" stroke="rgba(255,255,255,.03)" stroke-width="1" fill="none"/>
+ <!-- left lapel -->
+ <path d="M76 22 L100 36 L92 90 L64 100 L52 56 Q62 36 76 22Z" fill="url(#lap-l)" stroke="rgba(255,255,255,.08)" stroke-width=".5"/>
+ <!-- right lapel -->
+ <path d="M124 22 L100 36 L108 90 L136 100 L148 56 Q138 36 124 22Z" fill="url(#lap-r)" stroke="rgba(255,255,255,.08)" stroke-width=".5"/>
+ <!-- lapel notch highlight -->
+ <line x1="92" y1="90" x2="100" y2="80" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+ <line x1="108" y1="90" x2="100" y2="80" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+ <!-- collar -->
+ <path d="M80 24 L100 36 L120 24 L112 16 Q100 10 88 16Z" fill="var(--cc,#f0ece0)" opacity=".92"/>
+ <path d="M80 24 L100 36 L88 16Z" fill="rgba(0,0,0,.18)"/>
+ <!-- left sleeve -->
+ <path d="M52 56 L36 48 Q22 60 20 90 L28 160 Q34 162 42 158 L52 160 L52 56Z" fill="url(#slv-l)" stroke="rgba(255,255,255,.05)" stroke-width=".5"/>
+ <!-- right sleeve -->
+ <path d="M148 56 L164 48 Q178 60 180 90 L172 160 Q166 162 158 158 L148 160 L148 56Z" fill="url(#slv-r)" stroke="rgba(255,255,255,.05)" stroke-width=".5"/>
+ <!-- sleeve cuff L -->
+ <rect x="22" y="156" width="22" height="16" rx="4" fill="var(--cc,#f0ece0)" opacity=".9"/>
+ <!-- sleeve cuff R -->
+ <rect x="156" y="156" width="22" height="16" rx="4" fill="var(--cc,#f0ece0)" opacity=".9"/>
+ <!-- buttons gold -->
+ <circle cx="100" cy="108" r="3.5" fill="#cfa94e" stroke="#f0d78c" stroke-width=".8"/>
+ <circle cx="100" cy="128" r="3.5" fill="#cfa94e" stroke="#f0d78c" stroke-width=".8"/>
+ <circle cx="100" cy="148" r="3.5" fill="#cfa94e" stroke="#f0d78c" stroke-width=".8"/>
+ <!-- pocket -->
+ <rect x="58" y="110" width="22" height="14" rx="3" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
+ <!-- crest badge on pocket -->
+ <circle cx="69" cy="117" r="7" fill="#cfa94e" opacity=".9"/>
+ <circle cx="69" cy="117" r="7" fill="none" stroke="#f0d78c" stroke-width=".8"/>
+ <text x="69" y="121" text-anchor="middle" font-size="8" fill="#1a1405" font-weight="700">C</text>
+ <!-- shoulder seam lines -->
+ <path d="M76 22 Q64 36 56 52" stroke="rgba(255,255,255,.1)" stroke-width=".8" fill="none"/>
+ <path d="M124 22 Q136 36 144 52" stroke="rgba(255,255,255,.1)" stroke-width=".8" fill="none"/>
+ <!-- hem -->
+ <path d="M58 218 Q78 222 100 221 Q122 222 142 218" stroke="rgba(255,255,255,.08)" stroke-width="1" fill="none"/>
+ `},
  {id:'shirt',name:'Formal Shirt',note:'Poplin · stitched crest',price:3400,sizes:1,
-  svg:'<path class="fab" d="M62 22l38 14 38-14 40 32-14 40-18-6v128H54V88l-18 6-14-40z"/><path d="M62 22l38 30 38-30M100 52v176" stroke="#cfa94e" stroke-width="1.2" fill="none" opacity=".7"/><image href="logo.png" x="118" y="92" width="24" height="24"/>'},
+  svg:`<defs>
+  <linearGradient id="bg-sh" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#18140a"/><stop offset="100%" stop-color="#090806"/></linearGradient>
+  <linearGradient id="fab-sh" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="var(--fc,#2a2a2a)"/><stop offset="50%" stop-color="var(--fc2,#1c1c1c)"/><stop offset="100%" stop-color="var(--fc3,#141414)"/></linearGradient>
+  <linearGradient id="slv-sh-l" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="var(--sc,#161616)"/><stop offset="100%" stop-color="var(--sc2,#222)"/></linearGradient>
+  <linearGradient id="slv-sh-r" x1="1" y1="0" x2="0" y2="0"><stop offset="0%" stop-color="var(--sc,#161616)"/><stop offset="100%" stop-color="var(--sc2,#222)"/></linearGradient>
+  <filter id="shad"><feGaussianBlur stdDeviation="2.5"/></filter>
+ </defs>
+ <!-- shadow -->
+ <ellipse cx="100" cy="228" rx="52" ry="7" fill="#000" opacity=".4" filter="url(#shad)"/>
+ <!-- body -->
+ <path class="fab" d="M48 68 Q42 54 44 42 L64 24 Q76 18 84 18 L100 30 L116 18 Q124 18 136 24 L156 42 Q158 54 152 68 L144 220 L56 220 Z" fill="url(#fab-sh)"/>
+ <!-- fine poplin weave lines -->
+ <path d="M60 80 Q80 77 100 78 Q120 77 140 80" stroke="rgba(255,255,255,.05)" stroke-width=".8" fill="none"/>
+ <path d="M58 110 Q80 107 100 108 Q120 107 142 110" stroke="rgba(255,255,255,.04)" stroke-width=".8" fill="none"/>
+ <path d="M57 140 Q80 137 100 138 Q120 137 143 140" stroke="rgba(255,255,255,.03)" stroke-width=".8" fill="none"/>
+ <path d="M56 170 Q80 167 100 168 Q120 167 144 170" stroke="rgba(255,255,255,.03)" stroke-width=".8" fill="none"/>
+ <path d="M56 200 Q80 197 100 198 Q120 197 144 200" stroke="rgba(255,255,255,.025)" stroke-width=".8" fill="none"/>
+ <!-- placket (button strip) -->
+ <rect x="96" y="34" width="8" height="184" rx="2" fill="rgba(255,255,255,.045)"/>
+ <!-- buttons -->
+ <circle cx="100" cy="52" r="2.8" fill="var(--cc,#ddd8c8)"/><circle cx="100" cy="52" r="2.8" fill="none" stroke="rgba(0,0,0,.3)" stroke-width=".8"/>
+ <circle cx="100" cy="76" r="2.8" fill="var(--cc,#ddd8c8)"/><circle cx="100" cy="76" r="2.8" fill="none" stroke="rgba(0,0,0,.3)" stroke-width=".8"/>
+ <circle cx="100" cy="100" r="2.8" fill="var(--cc,#ddd8c8)"/>
+ <circle cx="100" cy="124" r="2.8" fill="var(--cc,#ddd8c8)"/>
+ <circle cx="100" cy="148" r="2.8" fill="var(--cc,#ddd8c8)"/>
+ <!-- left sleeve -->
+ <path d="M48 68 L44 42 Q30 52 24 82 L30 160 Q38 164 46 160 L56 162 L56 68Z" fill="url(#slv-sh-l)"/>
+ <!-- right sleeve -->
+ <path d="M152 68 L156 42 Q170 52 176 82 L170 160 Q162 164 154 160 L144 162 L144 68Z" fill="url(#slv-sh-r)"/>
+ <!-- cuffs -->
+ <rect x="22" y="156" width="26" height="18" rx="5" fill="var(--cc,#ddd8c8)" opacity=".9"/>
+ <line x1="28" y1="162" x2="28" y2="168" stroke="rgba(0,0,0,.2)" stroke-width="1"/>
+ <rect x="152" y="156" width="26" height="18" rx="5" fill="var(--cc,#ddd8c8)" opacity=".9"/>
+ <line x1="172" y1="162" x2="172" y2="168" stroke="rgba(0,0,0,.2)" stroke-width="1"/>
+ <!-- collar -->
+ <path d="M82 20 L100 32 L118 20 L108 10 Q100 6 92 10Z" fill="var(--cc,#e8e2d2)" opacity=".95"/>
+ <path d="M82 20 L100 32 L90 10Z" fill="rgba(0,0,0,.12)"/>
+ <path d="M118 20 L100 32 L110 10Z" fill="rgba(0,0,0,.08)"/>
+ <!-- collar stay lines -->
+ <line x1="90" y1="14" x2="88" y2="22" stroke="rgba(0,0,0,.15)" stroke-width=".8"/>
+ <line x1="110" y1="14" x2="112" y2="22" stroke="rgba(0,0,0,.15)" stroke-width=".8"/>
+ <!-- crest embroidery on chest -->
+ <circle cx="122" cy="88" r="10" fill="none" stroke="#cfa94e" stroke-width="1.2" opacity=".9"/>
+ <circle cx="122" cy="88" r="7" fill="rgba(207,169,78,.18)"/>
+ <text x="122" y="93" text-anchor="middle" font-size="9" fill="#cfa94e" font-weight="700" opacity=".95">C</text>
+ <!-- shoulder seams -->
+ <path d="M82 20 Q70 32 54 50" stroke="rgba(255,255,255,.08)" stroke-width=".8" fill="none"/>
+ <path d="M118 20 Q130 32 146 50" stroke="rgba(255,255,255,.08)" stroke-width=".8" fill="none"/>
+ <!-- side shading -->
+ <path d="M56 68 L56 220" stroke="rgba(0,0,0,.18)" stroke-width="6" fill="none"/>
+ <path d="M144 68 L144 220" stroke="rgba(0,0,0,.18)" stroke-width="6" fill="none"/>
+ `},
  {id:'tie',name:'Silk Tie',note:'Woven silk · gold panther',price:1800,sizes:0,
-  svg:'<path class="fab" d="M84 12h32l-6 28 16 150-26 36-26-36 16-150z"/><path d="M84 12h32l-6 28H90z" fill="#000" opacity=".35"/><image href="logo.png" x="86" y="104" width="28" height="28"/>'},
- {id:'pin',name:'Gold Crest Pin',note:'Cast panther · 24k finish',price:2600,sizes:0,
-  svg:'<circle cx="100" cy="110" r="78" class="fab"/><circle cx="100" cy="110" r="78" fill="none" stroke="#cfa94e" stroke-width="4"/><image href="logo.png" x="46" y="56" width="108" height="108"/>'}];
+  svg:`<defs>
+  <linearGradient id="fab-tie" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="var(--fc,#4d1420)"/><stop offset="40%" stop-color="var(--fc2,#3a0f18)"/><stop offset="100%" stop-color="var(--fc3,#28090f)"/></linearGradient>
+  <linearGradient id="tie-shine" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="rgba(255,255,255,.18)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>
+  <linearGradient id="tie-knot" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="var(--fc2,#5a1828)"/><stop offset="100%" stop-color="var(--fc3,#2a0a10)"/></linearGradient>
+  <filter id="tieshad"><feGaussianBlur stdDeviation="3"/></filter>
+ </defs>
+ <!-- shadow -->
+ <ellipse cx="100" cy="230" rx="28" ry="6" fill="#000" opacity=".4" filter="url(#tieshad)"/>
+ <!-- shirt collar bg -->
+ <path d="M60 10 L100 36 L140 10 L130 2 Q100 -4 70 2Z" fill="#c8c0aa" opacity=".35"/>
+ <!-- tie body -->
+ <path class="fab" d="M82 36 L100 30 L118 36 L114 68 L126 196 L118 218 L100 228 L82 218 L74 196 L86 68Z" fill="url(#fab-tie)"/>
+ <!-- silk sheen diagonal -->
+ <path d="M86 50 Q96 48 110 60 Q118 80 114 100 Q110 128 108 160 Q106 190 104 218" stroke="url(#tie-shine)" stroke-width="8" fill="none" opacity=".5"/>
+ <!-- secondary sheen -->
+ <path d="M90 60 Q98 58 108 72" stroke="rgba(255,255,255,.12)" stroke-width="3" fill="none"/>
+ <!-- woven pattern lines (silk texture) -->
+ <path d="M86 80 L114 76" stroke="rgba(255,255,255,.06)" stroke-width=".8"/>
+ <path d="M85 100 L115 96" stroke="rgba(255,255,255,.05)" stroke-width=".8"/>
+ <path d="M82 120 L118 116" stroke="rgba(255,255,255,.045)" stroke-width=".8"/>
+ <path d="M78 140 L122 136" stroke="rgba(255,255,255,.04)" stroke-width=".8"/>
+ <path d="M76 160 L124 156" stroke="rgba(255,255,255,.035)" stroke-width=".8"/>
+ <path d="M76 180 L124 176" stroke="rgba(255,255,255,.03)" stroke-width=".8"/>
+ <path d="M78 200 L122 196" stroke="rgba(255,255,255,.025)" stroke-width=".8"/>
+ <!-- knot -->
+ <path d="M82 36 L100 30 L118 36 L114 68 L86 68Z" fill="url(#tie-knot)"/>
+ <path d="M94 36 Q100 30 106 36 L104 56 Q100 60 96 56Z" fill="rgba(255,255,255,.1)"/>
+ <!-- knot shadow -->
+ <line x1="86" y1="68" x2="114" y2="68" stroke="rgba(0,0,0,.3)" stroke-width="2"/>
+ <!-- gold panther crest on tie -->
+ <circle cx="100" cy="130" r="16" fill="rgba(207,169,78,.15)" stroke="#cfa94e" stroke-width="1.2"/>
+ <circle cx="100" cy="130" r="12" fill="rgba(207,169,78,.1)"/>
+ <text x="100" y="136" text-anchor="middle" font-size="13" fill="#f0d78c" font-weight="700" opacity=".9">C</text>
+ <!-- tie tip -->
+ <path d="M82 218 L100 228 L118 218 L116 210 L84 210Z" fill="rgba(0,0,0,.2)"/>
+ <!-- edge highlight -->
+ <line x1="86" y1="68" x2="76" y2="196" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
+ <line x1="114" y1="68" x2="124" y2="196" stroke="rgba(0,0,0,.2)" stroke-width=".8"/>
+ `}];
 const SIZES=['XS','S','M','L','XL'],state={cart:[],sel:{}};
 PRODUCTS.forEach(p=>state.sel[p.id]={c:'Onyx',s:'M'});
 $('#grid').innerHTML=PRODUCTS.map((p,i)=>`<div class="card rv" data-id="${p.id}" style="--d:${i*110}ms"><div class="tilt" style="--c:${COLORS.Onyx}">
- <div class="art"><svg viewBox="0 0 200 240" aria-hidden="true">${p.svg}</svg></div>
- <div class="info"><h3>${p.name}</h3><small>${p.note}</small><span class="price">${php(p.price)}</span>
- <div class="row"><div class="sw" role="group" aria-label="Cloth">${Object.entries(COLORS).map(([n,c],k)=>`<button style="--c:${c}" data-c="${n}" aria-label="${n}" aria-pressed="${k==0}"></button>`).join('')}</div>
+ <div class="art"><svg viewBox="0 0 200 240" aria-hidden="true" style="--c:${COLORS.Onyx}">${p.svg}</svg></div>
+ <div class="info"><h3>${p.name}</h3><small>${p.note}</small><span class="price">${php(p.price)}</span></div>
+ <div class="row" style="padding:0 18px"><div class="sw" role="group" aria-label="Cloth">${Object.entries(COLORS).map(([n,c],k)=>`<button style="--c:${c}" data-c="${n}" aria-label="${n}" aria-pressed="${k==0}"></button>`).join('')}</div>
  ${p.sizes?`<div class="sz" role="group" aria-label="Size">${SIZES.map(s=>`<button data-s="${s}" aria-pressed="${s=='M'}">${s}</button>`).join('')}</div>`:''}</div>
- <button class="btn fill add">Add to order</button></div></div></div>`).join('');
+ <button class="btn fill add" style="margin:0 18px;width:calc(100% - 36px)">Add to order</button></div></div>`).join('');
 $$('.card').forEach(card=>{
  const id=card.dataset.id,t=$('.tilt',card);
  card.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
-  if(b.dataset.c){wear(id,{c:b.dataset.c,on:true});state.sel[id].c=b.dataset.c;t.style.setProperty('--c',COLORS[b.dataset.c]);$$('.sw button',card).forEach(x=>x.setAttribute('aria-pressed',x===b))}
+  if(b.dataset.c){wear(id,{c:b.dataset.c,on:true});state.sel[id].c=b.dataset.c;const col=COLORS[b.dataset.c];t.style.setProperty('--c',col);const artSvg=card.querySelector('.art svg');if(artSvg)artSvg.style.setProperty('--c',col);$$('.sw button',card).forEach(x=>x.setAttribute('aria-pressed',x===b))}
   else if(b.dataset.s){state.sel[id].s=b.dataset.s;$$('.sz button',card).forEach(x=>x.setAttribute('aria-pressed',x===b))}
-  else if(b.classList.contains('add')){add(id);wear(id,{c:state.sel[id].c,on:true});toast('Added to your order')}});
+  else if(b.classList.contains('add')){
+   const svg=card.querySelector('.art svg');
+   launchOrb(b,svg,id);
+   setTimeout(()=>{add(id);wear(id,{c:state.sel[id].c,on:true})},420);
+  }});
  if(fine){card.addEventListener('pointermove',e=>{const r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
    t.style.setProperty('--ry',(x-.5)*16+'deg');t.style.setProperty('--rx',-(y-.5)*16+'deg');t.style.setProperty('--mx',x*100+'%');t.style.setProperty('--my',y*100+'%')});
   card.addEventListener('pointerleave',()=>{t.style.setProperty('--ry','0deg');t.style.setProperty('--rx','0deg')})}});
-function addItem(id,c,size){const p=PRODUCTS.find(x=>x.id==id)||FLAT.find(x=>x.id==id),k=id+c+size,ex=state.cart.find(i=>i.k==k);ex?ex.q++:state.cart.push({k,id,name:p.name,price:p.price,c,size,q:1});render();const b=$('#count');b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}
+/* ── cinematic add-to-cart ── */
+const flyLayer=$('#fly-layer');
+function launchOrb(btn,svgEl,id){
+ // card flash
+ const card=btn.closest('.card');
+ card.classList.remove('card-flash');void card.offsetWidth;card.classList.add('card-flash');
+ setTimeout(()=>card.classList.remove('card-flash'),900);
+ // origin point — center of the art area
+ const artEl=card.querySelector('.art');
+ const aR=artEl.getBoundingClientRect();
+ const ox=aR.left+aR.width/2, oy=aR.top+aR.height/2;
+ // destination — cart button center
+ const cBtn=$('#cartBtn');
+ const cR=cBtn.getBoundingClientRect();
+ const dx=cR.left+cR.width/2, dy=cR.top+cR.height/2;
+ // create orb
+ const orb=document.createElement('div');
+ orb.className='fly-orb';
+ // clone the product svg into it
+ if(svgEl){const c2=svgEl.cloneNode(true);c2.setAttribute('width','30');c2.setAttribute('height','30');orb.appendChild(c2)}
+ orb.style.cssText=`left:${ox}px;top:${oy}px;transform:translate(-50%,-50%) scale(0)`;
+ flyLayer.appendChild(orb);
+ // spawn initial spark burst at origin
+ spawnParticles(ox,oy,16,'#f0d78c');
+ // phase 1: pop in
+ requestAnimationFrame(()=>{
+  orb.style.transition='transform .22s cubic-bezier(.34,1.56,.64,1)';
+  orb.style.transform='translate(-50%,-50%) scale(1)';
+  // phase 2: arc flight after pop
+  setTimeout(()=>{
+   const cp1x=ox+(dx-ox)*.15, cp1y=oy-Math.abs(dy-oy)*.9-80;
+   const dur=580;const start=performance.now();
+   function fly(now){
+    const t=Math.min((now-start)/dur,1);
+    const e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2; // easeInOutQuad
+    // cubic bezier interpolation
+    const mt=(1-e);
+    const bx=mt*mt*mt*ox+3*mt*mt*e*cp1x+3*mt*e*e*dx+e*e*e*dx;
+    const by=mt*mt*mt*oy+3*mt*mt*e*cp1y+3*mt*e*e*dy+e*e*e*dy;
+    const sc=1-e*.45;
+    orb.style.transition='none';
+    orb.style.left=bx+'px';
+    orb.style.top=by+'px';
+    orb.style.transform=`translate(-50%,-50%) scale(${sc})`;
+    orb.style.opacity=1-e*.3;
+    if(t<1){requestAnimationFrame(fly)}else{
+     // impact at cart
+     orb.remove();
+     spawnParticles(dx,dy,22,'#f0d78c');
+     spawnParticles(dx,dy,10,'#ffffff');
+     // ring burst at cart
+     const rng=document.createElement('div');
+     rng.className='ring-burst';
+     rng.style.cssText=`left:${dx}px;top:${dy}px;width:48px;height:48px;transform-origin:center;margin:-24px 0 0 -24px`;
+     flyLayer.appendChild(rng);
+     setTimeout(()=>rng.remove(),600);
+     // cart button glow
+     cBtn.classList.remove('cart-pop');void cBtn.offsetWidth;cBtn.classList.add('cart-pop');
+     setTimeout(()=>cBtn.classList.remove('cart-pop'),900);
+     // count pop
+     const cb=$('#count');
+     cb.classList.remove('count-pop');void cb.offsetWidth;cb.classList.add('count-pop');
+     setTimeout(()=>cb.classList.remove('count-pop'),500);
+     toast('Added to your order');
+    }
+   }
+   requestAnimationFrame(fly);
+  },200);
+ });
+}
+function spawnParticles(cx,cy,n,color){
+ for(let i=0;i<n;i++){
+  const sp=document.createElement('div');
+  sp.className='spark';
+  const angle=(i/n)*Math.PI*2+Math.random()*.5;
+  const dist=40+Math.random()*70;
+  const tx=Math.cos(angle)*dist, ty=Math.sin(angle)*dist;
+  const size=2+Math.random()*5;
+  const dur=.4+Math.random()*.5;
+  const hue=Math.random()>.3?color:(Math.random()>.5?'#fff':'#cfa94e');
+  sp.style.cssText=`left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;background:${hue};--tx:${tx}px;--ty:${ty}px;--d:${dur}s;margin:${-size/2}px 0 0 ${-size/2}px`;
+  flyLayer.appendChild(sp);
+  setTimeout(()=>sp.remove(),(dur+.1)*1000);
+ }
+}
+function addItem(id,c,size){const p=PRODUCTS.find(x=>x.id==id)||FLAT.find(x=>x.id==id),k=id+c+size,ex=state.cart.find(i=>i.k==k);ex?ex.q++:state.cart.push({k,id,name:p.name,price:p.price,c,size,q:1});render()}
 function add(id){const p=PRODUCTS.find(x=>x.id==id),s=state.sel[id];addItem(id,s.c,p.sizes?s.s:'—')}
 function render(){const n=state.cart.reduce((a,i)=>a+i.q,0),tot=state.cart.reduce((a,i)=>a+i.q*i.price,0);
  $('#count').textContent=n;$('#total').textContent=php(tot);$('#checkout').disabled=!n;$('#checkout').style.opacity=n?1:.4;
@@ -430,8 +646,10 @@ let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on
 render();
 
 
-/* ---------- fitting room v2 ---------- */
-const TONES=['#ecc9a6','#c99a77','#a8704b','#6f4a31'];
+const FLAT=PRODUCTS;const SLOT={blazer:'jacket',shirt:'top',tie:'tie'};
+function wear(){}
+/* fitting room removed */
+if(false){const TONES=['#ecc9a6'];
 const IC={
  shirt:'<path d="M12 6 4 11l3 6 3-2v17h16V15l3 2 3-6-8-5c-1 3-3 4-6 4s-5-1-6-4z"/>',
  polo:'<path d="M13 6 4 12l4 5 3-2v17h18V15l3 2 4-5-9-6c-1 3-3 4-6 4s-5-1-6-4z"/><path d="M20 10v8" stroke="#0a0908" stroke-width="1.4"/>',
@@ -638,7 +856,7 @@ buildCards();fitUI();
  size();addEventListener('resize',size);
  let vis=false;new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(cv);
  const T0=performance.now();(function loop(){requestAnimationFrame(loop);if(!vis)return;frame((performance.now()-T0)/1000);R.render(sc,cam)})();
-})();
+})();}
 </script>
 </body>
 </html>
