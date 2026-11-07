@@ -311,6 +311,76 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 @keyframes noteIn{from{opacity:0;transform:translateX(50px)}}@keyframes noteOut{to{opacity:0;transform:translateX(50px)}}
 @media(max-width:1000px){.about-grid{grid-template-columns:1fr}.crew{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.two{grid-template-columns:1fr}.crew{grid-template-columns:1fr}.coinrow span{font-size:19px}}
+
+/* ===== v4: studio cards, quick view, checkout wizard ===== */
+.sheet{position:relative}.sheet.wide{width:min(960px,100%)}
+.art{background:radial-gradient(ellipse 90% 75% at 50% 30%,#f6f4ef,#dedad1 70%,#c9c4b9)!important}
+.art::before{background:radial-gradient(ellipse 46% 8% at 50% 84%,rgba(0,0,0,.3),transparent 72%)!important}
+.art::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.16;mix-blend-mode:multiply;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.art svg{filter:drop-shadow(0 16px 16px rgba(0,0,0,.4))!important}
+.art .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}.art:has(.ph) svg{opacity:0}
+.tilt{cursor:pointer}
+.qvh{position:absolute;left:50%;bottom:14px;translate:-50% 8px;opacity:0;z-index:4;background:rgba(10,9,8,.88);color:var(--gold2);border:1px solid var(--gold);border-radius:99px;padding:6px 14px;font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;transition:opacity .25s ease,translate .3s var(--out);pointer-events:none}
+.tilt:hover .qvh{opacity:1;translate:-50% 0}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px}
+.tilt .btns .btn{margin:0;width:100%;justify-content:center;padding:13px 10px}
+.qx{position:absolute;top:16px;right:16px;z-index:3}
+.qv{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start;animation:in .4s var(--out)}
+.qart{border-radius:16px;aspect-ratio:3/4;position:relative;overflow:hidden;filter:none!important}
+.qinfo{display:grid;gap:8px}.qinfo h3{font-size:40px}
+.stars{color:var(--gold2);letter-spacing:2px}.stars small{color:var(--mute);letter-spacing:0;margin-left:6px}
+.price.big{font-size:32px}.qinfo p{color:var(--mute);font-size:15px}
+.qq{display:flex;align-items:center;gap:14px}.qq button{width:34px;height:34px}.qq b{min-width:20px;text-align:center}
+.qinfo .btns{padding:0;margin-top:12px}.qinfo .btn{justify-content:center;width:100%}
+.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+.specs small{color:var(--mute);display:block;font-size:12px}.specs b{font-size:14px;font-weight:500}
+.ck-head{display:flex;justify-content:space-between;align-items:center}
+.steps3{display:flex;align-items:center;gap:10px;margin:16px 0 24px;font-size:13px;color:var(--mute)}
+.steps3 div{display:flex;align-items:center;gap:8px;transition:color .3s ease}
+.steps3 i{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:12px;transition:all .35s var(--out)}
+.steps3 .cur{color:var(--ivory)}.steps3 .cur i{background:var(--gold);color:#1a1405;border-color:var(--gold);box-shadow:0 0 18px rgba(207,169,78,.5)}
+.steps3 .done i{background:rgba(207,169,78,.18);border-color:var(--gold);color:var(--gold2)}
+.steps3 hr{flex:1;border:0;height:1px;background:var(--line)}
+.ck-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:28px;align-items:start}
+.ck-main{animation:slidein .42s var(--out)}@keyframes slidein{from{opacity:0;transform:translateX(26px)}}
+.ck-sum{border:1px solid var(--line);border-radius:16px;padding:20px;background:#0c0a07}
+.ck-sum h4{font:600 24px var(--serif);margin-bottom:12px}
+.ci{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.ci i{width:44px;height:44px;border-radius:10px;background:var(--c);border:1px solid var(--line);display:grid;place-items:center}.ci i img{width:28px}
+.ci small{display:block;color:var(--mute);font-size:12px}.ci span{font:600 16px var(--serif);color:var(--gold2)}
+.opts,.pays{display:grid;gap:10px}
+.opt,.pay{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin:0;color:var(--ivory);cursor:pointer;position:relative;transition:border-color .2s ease,background .2s ease,transform .15s var(--out)}
+.opt input,.pay input{position:absolute;opacity:0;width:0;height:0}
+.opt span,.pay span{flex:1;display:grid}.opt small,.pay small{color:var(--mute);font-size:12px}
+.opt em{font:600 16px var(--serif);font-style:normal;color:var(--gold2)}
+.opt:has(input:checked),.pay:has(input:checked){border-color:var(--gold);background:rgba(207,169,78,.09);box-shadow:0 0 0 1px var(--gold)}
+.opt:active,.pay:active{transform:scale(.99)}
+.pays{grid-template-columns:repeat(2,1fr)}.pays .pay:last-child{grid-column:span 2}
+.pp{margin:16px 0 4px;animation:in .35s var(--out)}
+.cardv{perspective:900px;height:176px;margin-bottom:8px}
+.cin{position:relative;width:min(300px,100%);height:100%;transform-style:preserve-3d;transition:transform .7s var(--out)}.cardv.flip .cin{transform:rotateY(180deg)}
+.cc-front,.cc-back{position:absolute;inset:0;border-radius:16px;backface-visibility:hidden;padding:18px;border:1px solid #6a5628;background:linear-gradient(135deg,#2b2210,#0e0b06 70%);display:grid;align-content:space-between;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+.cc-front img{width:34px}.cc-front #cn{font:500 18px ui-monospace,monospace;letter-spacing:.1em}
+.cc-front .r{display:flex;justify-content:space-between}.cc-front .r div{display:grid}
+.cc-front small,.cc-back small{font-size:9px;color:var(--mute);letter-spacing:.14em}.cc-front b{font-size:13px;font-weight:500}
+.cc-back{transform:rotateY(180deg);padding:0;align-content:start}.cc-back i{display:block;height:38px;background:#000;margin-top:22px}
+.cc-back b{margin:14px 18px 0 auto;background:#e8e2d0;color:#111;padding:6px 12px;border-radius:4px;font:600 14px ui-monospace,monospace}
+.ewal{display:flex;gap:16px;align-items:center;margin-bottom:6px}.ewal p{color:var(--mute);font-size:13px}
+.qr{width:104px;height:104px;background:#f3ead7;padding:7px;border-radius:10px;display:grid;grid-template-columns:repeat(21,1fr);flex:none}
+.qr i.k{background:#111}
+.bank{display:grid;gap:10px;border:1px dashed #5a4a22;border-radius:12px;padding:14px}.bank small{color:var(--mute);display:block;font-size:12px}
+.cod{border:1px dashed #5a4a22;border-radius:12px;padding:16px;color:var(--mute)}.cod b{color:var(--gold2)}
+.rev{display:grid;gap:12px}.rev>div{border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:2px;position:relative}
+.rev small{color:var(--gold);font:600 11px var(--sans);letter-spacing:.16em;text-transform:uppercase}.rev span{color:var(--mute);font-size:14px}.rev b{font-weight:500}
+.lnk{position:absolute;right:14px;top:12px;background:none;border:0;color:var(--gold2);text-decoration:underline;cursor:pointer;font-size:13px}
+.agree{display:flex;gap:10px;align-items:flex-start;margin:16px 0;font-size:13px;color:var(--mute)}.agree input{width:auto;margin-top:3px}
+.back{width:100%;justify-content:center;margin-top:10px;border-color:var(--line);color:var(--mute)}
+.paybtn{width:100%;justify-content:center;animation:glow 2s ease-in-out infinite}@keyframes glow{50%{box-shadow:0 0 36px rgba(207,169,78,.55)}}
+.recap{display:grid;gap:8px;text-align:left;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:14px 0;animation:in .5s var(--out) 1.1s backwards}
+.recap small{color:var(--gold);font:600 10px var(--sans);letter-spacing:.16em;text-transform:uppercase;display:block}.recap b{font-size:14px;font-weight:500}
+.screen video{position:absolute;inset:0;width:100%;height:100%;background:#000}
+.film-note{text-align:center;color:var(--mute);font-size:13px;margin-top:14px}
+@media(max-width:800px){.qv,.ck-grid{grid-template-columns:1fr}.pays{grid-template-columns:1fr}.pays .pay:last-child{grid-column:auto}.sheet.wide{padding:22px}}
 </style>
 </head>
 <body>
@@ -320,7 +390,7 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 
 <nav><div class="wrap">
   <a class="brand" href="#top"><img src="logo.png" alt="">CENTOCINQUANTA</a>
-  <div class="links"><a href="#crest">Crest</a><a href="#collection">Collection</a><a href="#film">Film</a><a href="#about">About</a><a href="#projects">Labs</a>
+  <div class="links"><a href="#crest">Crest</a><a href="#collection">Collection</a><a href="#film">Film</a><a href="#about">About</a>
   <button class="btn keep" id="cartBtn" aria-label="Open order">Order <b id="count">0</b></button></div>
 </div></nav>
 
@@ -366,14 +436,7 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
   </div>
 </div></section>
 
-<section class="s" id="projects" data-pose="0.62,0.35,0.5,5.5"><div class="wrap">
-  <div class="head"><div><div class="eyebrow rv">Centocinquanta Labs</div><h2 data-split>Built by students.</h2></div><p class="lead rv">Python tools and automation we build alongside the brand. Replace these with your repos.</p></div>
-  <div class="projects">
-    <a class="proj rv" style="--d:0ms" href="#"><code>python</code><h3>Stock Tracker</h3><p>Keeps live counts for every piece, cloth and size.</p></a>
-    <a class="proj rv" style="--d:90ms" href="#"><code>automation</code><h3>Size Finder</h3><p>Suggests the right size from height and weight.</p></a>
-    <a class="proj rv" style="--d:180ms" href="#"><code>web</code><h3>This Portfolio</h3><p>A single-page 3D site hosted on GitHub Pages.</p></a>
-  </div>
-</div></section>
+
 
 <section class="s" id="about" data-pose="0.85,0.7,0.28,6.4"><div class="wrap">
   <div class="head"><div><div class="eyebrow rv">About us</div><h2 data-split>Find Centocinquanta.</h2></div></div>
@@ -659,16 +722,17 @@ const PRODUCTS=[
 const SIZES=['XS','S','M','L','XL'],state={cart:[],sel:{}};
 PRODUCTS.forEach(p=>state.sel[p.id]={c:'Onyx',s:'M'});
 $('#grid').innerHTML=PRODUCTS.map((p,i)=>`<div class="card rv" data-id="${p.id}" style="--d:${i*110}ms"><div class="tilt" style="--c:${COLORS.Onyx}">
- <div class="art"><svg viewBox="0 0 200 240" aria-hidden="true" style="--c:${COLORS.Onyx}">${p.svg}</svg></div>
+ <div class="art"><img class="ph" src="images/${p.id}.jpg" alt="${p.name}" loading="lazy" onerror="this.remove()"><svg viewBox="0 0 200 240" aria-hidden="true" style="--c:${COLORS.Onyx}">${p.svg}</svg><span class="qvh">Quick view</span></div>
  <div class="info"><h3>${p.name}</h3><small>${p.note}</small><span class="price">${php(p.price)}</span></div>
  <div class="row" style="padding:0 18px"><div class="sw" role="group" aria-label="Cloth">${Object.entries(COLORS).map(([n,c],k)=>`<button style="--c:${c}" data-c="${n}" aria-label="${n}" aria-pressed="${k==0}"></button>`).join('')}</div>
  ${p.sizes?`<div class="sz" role="group" aria-label="Size">${SIZES.map(s=>`<button data-s="${s}" aria-pressed="${s=='M'}">${s}</button>`).join('')}</div>`:''}</div>
- <button class="btn fill add" style="margin:0 18px;width:calc(100% - 36px)">Add to order</button></div></div>`).join('');
+ <div class="btns"><button class="btn add">Add to order</button><button class="btn fill buy">Buy now</button></div></div></div>`).join('');
 $$('.card').forEach(card=>{
  const id=card.dataset.id,t=$('.tilt',card);
  card.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.c){wear(id,{c:b.dataset.c,on:true});state.sel[id].c=b.dataset.c;const col=COLORS[b.dataset.c];t.style.setProperty('--c',col);const artSvg=card.querySelector('.art svg');if(artSvg)artSvg.style.setProperty('--c',col);$$('.sw button',card).forEach(x=>x.setAttribute('aria-pressed',x===b))}
   else if(b.dataset.s){state.sel[id].s=b.dataset.s;$$('.sz button',card).forEach(x=>x.setAttribute('aria-pressed',x===b))}
+  else if(b.classList.contains('buy')){buyNow(id)}
   else if(b.classList.contains('add')){
    const svg=card.querySelector('.art svg');
    launchOrb(b,svg,id);
@@ -762,7 +826,7 @@ function spawnParticles(cx,cy,n,color){
   setTimeout(()=>sp.remove(),(dur+.1)*1000);
  }
 }
-function addItem(id,c,size){const p=PRODUCTS.find(x=>x.id==id)||FLAT.find(x=>x.id==id),k=id+c+size,ex=state.cart.find(i=>i.k==k);ex?ex.q++:state.cart.push({k,id,name:p.name,price:p.price,c,size,q:1});render()}
+function addItem(id,c,size,n=1){const p=PRODUCTS.find(x=>x.id==id)||FLAT.find(x=>x.id==id),k=id+c+size,ex=state.cart.find(i=>i.k==k);ex?ex.q+=n:state.cart.push({k,id,name:p.name,price:p.price,c,size,q:n});render()}
 function add(id){const p=PRODUCTS.find(x=>x.id==id),s=state.sel[id];addItem(id,s.c,p.sizes?s.s:'—')}
 /* ---------- cart v2 + orders ---------- */
 const STAGES=['Order confirmed','Packing your pieces','Shipped from Calapan','Out for delivery','Delivered'],STEP=7000;
@@ -792,18 +856,68 @@ $('.dtabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b
 $('#promoBtn').onclick=()=>{const c=$('#promo').value.trim().toUpperCase();if(PROMOS[c]){promo={c,r:PROMOS[c]};notify('Promo applied',c+' · '+Math.round(PROMOS[c]*100)+'% off')}else{promo=null;toast('That code is not valid')}render()};
 function notify(t,m){const n=document.createElement('div');n.className='note';n.innerHTML=`<b>${t}</b><span>${m}</span>`;$('#notes').appendChild(n);setTimeout(()=>n.remove(),4600)}
 function confetti(){const cols=['#f0d78c','#cfa94e','#f3ead7','#ffffff'];for(let i=0;i<70;i++){const c=document.createElement('i');c.className='conf';c.style.cssText=`left:${Math.random()*100}vw;background:${cols[i%4]};--dx:${(Math.random()-.5)*240}px;--t:${2+Math.random()*1.8}s;animation-delay:${Math.random()*.4}s;transform:rotate(${Math.random()*360}deg)`;flyLayer.appendChild(c);setTimeout(()=>c.remove(),4800)}}
-$('#checkout').onclick=()=>{if(!state.cart.length)return;openDrawer(false);veil.classList.add('on');
- const sum=s=>sub()-disc()+s;
- $('#sheet').innerHTML=`<h3>Checkout</h3><form id="f"><div class="two"><div><label>Full name</label><input required name="n" autocomplete="name"></div><div><label>Mobile number</label><input required name="p" type="tel" placeholder="+63 9XX XXX XXXX" autocomplete="tel"></div></div><label>Email</label><input required name="e" type="email" autocomplete="email"><label>Delivery address</label><input required name="a" autocomplete="street-address" placeholder="Street, barangay, city"><div class="two"><div><label>Delivery</label><select name="d"><option value="Standard">Standard · 3–5 days · ₱150</option><option value="Express">Express · 1–2 days · ₱350</option></select></div><div><label>Payment</label><select name="m"><option>Cash on delivery</option><option>GCash (demo)</option><option>Card (demo)</option></select></div></div><div class="brk"><div><span>Subtotal</span><span>${php(sub())}</span></div>${disc()?`<div><span>Discount (${promo.c})</span><span>−${php(disc())}</span></div>`:''}<div><span>Delivery</span><span id="shipv">₱150</span></div></div><div class="tot" style="margin:16px 0"><span>Total</span><span id="grand">${php(sum(150))}</span></div><button class="btn fill" style="width:100%;justify-content:center">Place order</button></form>`;
- modal.classList.add('on');$('#sheet input').focus();
- const f=$('#f');f.d.onchange=()=>{const s=FEES[f.d.value];$('#shipv').textContent=php(s);$('#grand').textContent=php(sum(s))};
- f.onsubmit=e=>{e.preventDefault();const ship=FEES[f.d.value];sendOrder({no:'CNT-'+Math.floor(1000+Math.random()*9000),t:0,items:state.cart.map(i=>({name:i.name,q:i.q})),total:sum(ship),name:f.n.value.trim(),phone:f.p.value.trim(),email:f.e.value.trim(),eta:etaFor(f.d.value),seen:0})}};
-function sendOrder(o){const msgs=['Contacting Centocinquanta HQ…','Reserving your pieces…','Confirming payment…','Packing a gift box…'];
+/* ---------- quick view, buy now, checkout wizard ---------- */
+const SHIP={Standard:{fee:150,t:'3–5 days',d:5},Express:{fee:350,t:'1–2 days',d:2},Pickup:{fee:0,t:'Ready in 1 day',d:1}};
+const PAYS=[['GCash','Pay with your GCash wallet'],['Maya','Pay with your Maya wallet'],['Card','Visa, Mastercard'],['Bank','Bank transfer'],['COD','Pay when it arrives']];
+const PAYN={GCash:'GCash',Maya:'Maya',Card:'Credit / debit card',Bank:'Bank transfer',COD:'Cash on delivery'};
+const DESC={blazer:'A structured single-breasted blazer in a wool blend with gold buttons and the Centocinquanta crest stitched at the chest. Cut with a relaxed, confident shoulder.',shirt:'Crisp poplin with a hidden placket and a stitched gold crest. Sharp under a blazer, relaxed with the collar open.',tie:'Woven silk with a subtle diagonal texture and a gold panther near the tip. Hand-finished edges.'};
+const SPEC={blazer:[['Fabric','Wool blend'],['Fit','Relaxed tailored'],['Care','Dry clean only']],shirt:[['Fabric','Cotton poplin'],['Fit','Regular'],['Care','Machine wash cold']],tie:[['Fabric','Woven silk'],['Width','7 cm'],['Care','Dry clean only']]};
+let ck=null;
+const lsGet=k=>{try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}};
+const dateIn=n=>new Date(Date.now()+n*864e5).toLocaleDateString('en-PH',{weekday:'short',month:'short',day:'numeric'});
+const calc=()=>{const s=ck.items.reduce((a,i)=>a+i.q*i.price,0),d=promo?Math.round(s*promo.r):0,f=SHIP[ck.ship].fee;return{s,d,f,t:s-d+f}};
+function qr(){const n=21;let s='';for(let y=0;y<n;y++)for(let x=0;x<n;x++){let ex=-1,ey=-1;if(y<7&&x<7){ex=x;ey=y}else if(y<7&&x>=n-7){ex=x-(n-7);ey=y}else if(y>=n-7&&x<7){ex=x;ey=y-(n-7)}
+ const k=ex>=0?(ex==0||ex==6||ey==0||ey==6||(ex>=2&&ex<=4&&ey>=2&&ey<=4)):Math.random()>.5;s+=`<i${k?' class="k"':''}></i>`}return s}
+function artHTML(p,c){const sv=p.svg.replace(/id="([^"]+)"/g,'id="$1-q"').replace(/url\(#([^)]+)\)/g,'url(#$1-q)');return `<div class="art qart" style="--c:${COLORS[c]}"><img class="ph" src="images/${p.id}.jpg" alt="" onerror="this.remove()"><svg viewBox="0 0 200 240" style="--c:${COLORS[c]}">${sv}</svg></div>`}
+function openQuick(id){const p=PRODUCTS.find(x=>x.id==id),sel=state.sel[id];let q=1;const sheet=$('#sheet');sheet.classList.add('wide');
+ sheet.innerHTML=`<button class="x qx" id="qx" aria-label="Close">✕</button><div class="qv">${artHTML(p,sel.c)}<div class="qinfo"><div class="eyebrow">Collection 01</div><h3>${p.name}</h3><div class="stars">★★★★★<small>4.9 · 128 reviews</small></div><div class="price big">${php(p.price)}</div><p>${DESC[id]}</p><label>Cloth · <b id="qc">${sel.c}</b></label><div class="sw" id="qsw">${Object.entries(COLORS).map(([n,c])=>`<button style="--c:${c}" data-c="${n}" aria-label="${n}" aria-pressed="${n==sel.c}"></button>`).join('')}</div>${p.sizes?`<label>Size</label><div class="sz" id="qsz">${SIZES.map(s=>`<button data-s="${s}" aria-pressed="${s==sel.s}">${s}</button>`).join('')}</div>`:''}<label>Quantity</label><div class="qty qq"><button id="qm" aria-label="Less">−</button><b id="qn">1</b><button id="qp" aria-label="More">+</button></div><div class="btns"><button class="btn" id="qadd">Add to order</button><button class="btn fill" id="qbuy">Buy now · <span id="qprice">${php(p.price)}</span></button></div><div class="specs">${SPEC[id].map(([a,b])=>`<div><small>${a}</small><b>${b}</b></div>`).join('')}</div></div></div>`;
+ modal.classList.add('on');veil.classList.add('on');
+ const upd=()=>{$('#qn').textContent=q;$('#qprice').textContent=php(p.price*q)};
+ const card=$(`.card[data-id="${id}"]`);
+ $('#qsw').onclick=e=>{const b=e.target.closest('button');if(!b)return;const a=$('.qart');a.style.setProperty('--c',COLORS[b.dataset.c]);$('svg',a).style.setProperty('--c',COLORS[b.dataset.c]);$('#qc').textContent=b.dataset.c;$$('#qsw button').forEach(x=>x.setAttribute('aria-pressed',x===b));const cb=card&&card.querySelector(`.sw button[data-c="${b.dataset.c}"]`);if(cb)cb.click();else sel.c=b.dataset.c};
+ if($('#qsz'))$('#qsz').onclick=e=>{const b=e.target.closest('button');if(!b)return;$$('#qsz button').forEach(x=>x.setAttribute('aria-pressed',x===b));const cb=card&&card.querySelector(`.sz button[data-s="${b.dataset.s}"]`);if(cb)cb.click();else sel.s=b.dataset.s};
+ $('#qm').onclick=()=>{q=Math.max(1,q-1);upd()};$('#qp').onclick=()=>{q=Math.min(9,q+1);upd()};
+ $('#qx').onclick=()=>{modal.classList.remove('on');veil.classList.remove('on')};
+ $('#qadd').onclick=()=>{addItem(id,sel.c,p.sizes?sel.s:'—',q);spawnParticles(innerWidth/2,innerHeight/2,26,'#f0d78c');toast('Added to your order');const cb=$('#count');cb.classList.remove('count-pop');void cb.offsetWidth;cb.classList.add('count-pop');modal.classList.remove('on');veil.classList.remove('on');setTimeout(()=>openDrawer(true),350)};
+ $('#qbuy').onclick=()=>buyNow(id,sel.c,sel.s,q)}
+function buyNow(id,c,s,q){const p=PRODUCTS.find(x=>x.id==id),sel=state.sel[id];c=c||sel.c;s=s||sel.s;const size=p.sizes?s:'—';startCheckout([{k:id+c+size,id,name:p.name,price:p.price,c,size,q:q||1}])}
+$$('.card').forEach(card=>card.addEventListener('click',e=>{if(e.target.closest('button'))return;openQuick(card.dataset.id)}));
+$('#checkout').onclick=()=>startCheckout(state.cart);
+modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('on');veil.classList.remove('on')}});
+function startCheckout(items){if(!items.length)return;ck={items,step:0,ship:'Standard',pay:'GCash',card:'',d:Object.assign({},lsGet('cnt_profile')||{})};openDrawer(false);veil.classList.add('on');$('#sheet').classList.add('wide');modal.classList.add('on');renderCk()}
+function summary(){const c=calc();return `<aside class="ck-sum"><h4>Order summary</h4>${ck.items.map(i=>`<div class="ci" style="--c:${PAL[i.c]}"><i><img src="logo.png" alt=""></i><div><b>${i.name}</b><small>${i.c} · ${i.size} · ×${i.q}</small></div><span>${php(i.q*i.price)}</span></div>`).join('')}<div class="brk"><div><span>Subtotal</span><span>${php(c.s)}</span></div>${c.d?`<div><span>Discount (${promo.c})</span><span>−${php(c.d)}</span></div>`:''}<div><span>Shipping · ${SHIP[ck.ship].t}</span><span>${c.f?php(c.f):'Free'}</span></div></div><div class="tot" style="margin-top:14px"><span>Total</span><span>${php(c.t)}</span></div></aside>`}
+function payPanel(pm){
+ if(pm=='Card')return `<div class="cardv" id="cardv"><div class="cin"><div class="cc-front"><img src="logo.png" alt=""><span id="cn">•••• •••• •••• ••••</span><div class="r"><div><small>CARD HOLDER</small><b id="chn">YOUR NAME</b></div><div><small>EXPIRES</small><b id="cex">MM/YY</b></div></div></div><div class="cc-back"><i></i><b id="ccv">•••</b></div></div></div><label>Card number</label><input id="cnum" required inputmode="numeric" minlength="19" maxlength="19" placeholder="1234 5678 9012 3456" autocomplete="cc-number"><label>Name on card</label><input id="cname" required autocomplete="cc-name"><div class="two"><div><label>Expiry</label><input id="cexp" required minlength="5" maxlength="5" placeholder="MM/YY" autocomplete="cc-exp"></div><div><label>CVV</label><input id="ccvv" required minlength="3" maxlength="3" inputmode="numeric" placeholder="123" autocomplete="cc-csc"></div></div>`;
+ if(pm=='GCash'||pm=='Maya')return `<div class="ewal"><div class="qr">${qr()}</div><div><b>Scan to pay (demo)</b><p>Open ${pm} and scan the code, or send to <b>0917 150 0150</b>.</p></div></div><label>Your ${pm} number</label><input required inputmode="tel" placeholder="09XX XXX XXXX">`;
+ if(pm=='Bank')return `<div class="bank"><div><small>Bank</small><b>BDO Unibank (demo)</b></div><div><small>Account name</small><b>Centocinquanta Concept Store</b></div><div><small>Account number</small><b>0015 0150 0150</b></div></div><label>Reference number (optional)</label><input placeholder="Transfer reference">`;
+ return `<div class="cod">Pay <b>${php(calc().t)}</b> in cash when your order arrives. Please prepare the exact amount.</div>`}
+function bindCard(){const n=$('#cnum');if(!n)return;const cv=$('#cardv');
+ n.oninput=()=>{n.value=n.value.replace(/\D/g,'').slice(0,16).replace(/(.{4})/g,'$1 ').trim();$('#cn').textContent=n.value||'•••• •••• •••• ••••'};
+ $('#cname').oninput=e=>{$('#chn').textContent=e.target.value.toUpperCase()||'YOUR NAME'};
+ $('#cexp').oninput=e=>{let v=e.target.value.replace(/\D/g,'').slice(0,4);if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);e.target.value=v;$('#cex').textContent=v||'MM/YY'};
+ const cc=$('#ccvv');cc.onfocus=()=>cv.classList.add('flip');cc.onblur=()=>cv.classList.remove('flip');cc.oninput=()=>{cc.value=cc.value.replace(/\D/g,'').slice(0,3);$('#ccv').textContent=cc.value.padEnd(3,'•')}}
+function renderCk(){const st=ck.step,d=ck.d,c=calc();let body='';
+ const head=`<div class="ck-head"><h3>Checkout</h3><button class="x" id="ckx" aria-label="Close">✕</button></div><div class="steps3">${['Shipping','Payment','Review'].map((n,i)=>`<div class="${i<st?'done':i==st?'cur':''}"><i>${i<st?'✓':i+1}</i>${n}</div>`).join('<hr>')}</div>`;
+ if(st==0)body=`<form id="ckf"><div class="two"><div><label>Full name</label><input required name="n" value="${d.n||''}" autocomplete="name"></div><div><label>Mobile number</label><input required name="p" type="tel" value="${d.p||''}" placeholder="+63 9XX XXX XXXX" autocomplete="tel"></div></div><label>Email</label><input required name="e" type="email" value="${d.e||''}" autocomplete="email"><label>Street, building, barangay</label><input required name="a" value="${d.a||''}" autocomplete="street-address"><div class="two"><div><label>City / municipality</label><input required name="c" value="${d.c||'Calapan City'}"></div><div><label>Province</label><input required name="v" value="${d.v||'Oriental Mindoro'}"></div></div><label>Postal code</label><input required name="z" value="${d.z||'5200'}" inputmode="numeric" pattern="[0-9]{4}" title="4 digits"><label>Delivery</label><div class="opts">${Object.entries(SHIP).map(([k,v])=>`<label class="opt"><input type="radio" name="s" value="${k}" ${ck.ship==k?'checked':''}><span><b>${k=='Pickup'?'Store pickup':k}</b><small>${v.t} · by ${dateIn(v.d)}</small></span><em>${v.fee?php(v.fee):'Free'}</em></label>`).join('')}</div><button class="btn fill" style="width:100%;justify-content:center;margin-top:18px">Continue to payment</button></form>`;
+ if(st==1)body=`<form id="ckf"><div class="pays">${PAYS.map(([k,t])=>`<label class="pay"><input type="radio" name="m" value="${k}" ${ck.pay==k?'checked':''}><span><b>${PAYN[k]}</b><small>${t}</small></span></label>`).join('')}</div><div class="pp" id="pp">${payPanel(ck.pay)}</div><button class="btn fill" style="width:100%;justify-content:center;margin-top:14px">Review order</button><button type="button" class="btn back" id="back">Back</button></form>`;
+ if(st==2){const sh=SHIP[ck.ship],l4=ck.card?' •••• '+ck.card.slice(-4):'';body=`<form id="ckf"><div class="rev"><div><small>Ship to</small><b>${d.n}</b><span>${d.a}, ${d.c}, ${d.v} ${d.z}</span><span>${d.p} · ${d.e}</span><button type="button" class="lnk" data-go="0">Edit</button></div><div><small>Delivery</small><b>${ck.ship=='Pickup'?'Store pickup':ck.ship}</b><span>${sh.t} · arrives by ${dateIn(sh.d)}</span></div><div><small>Payment</small><b>${PAYN[ck.pay]}${l4}</b><span>${ck.pay=='COD'?'Pay on arrival':'Prototype payment, nothing is charged'}</span><button type="button" class="lnk" data-go="1">Edit</button></div></div><label class="agree"><input type="checkbox" required> I understand this is a prototype and no real payment is taken.</label><button class="btn fill paybtn">Pay ${php(c.t)}</button><button type="button" class="btn back" id="back">Back</button></form>`}
+ $('#sheet').innerHTML=head+`<div class="ck-grid"><div class="ck-main">${body}</div>${summary()}</div>`;
+ const f=$('#ckf');$('#ckx').onclick=()=>{modal.classList.remove('on');veil.classList.remove('on');ck=null};
+ $$('[data-go]').forEach(b=>b.onclick=()=>{ck.step=+b.dataset.go;renderCk()});
+ if($('#back'))$('#back').onclick=()=>{ck.step--;renderCk()};
+ if(st==0){$$('input[name=s]').forEach(r=>r.onchange=()=>{ck.ship=r.value;$('.ck-sum').outerHTML=summary()});
+  f.onsubmit=e=>{e.preventDefault();const fd=new FormData(f);['n','p','e','a','c','v','z'].forEach(k=>ck.d[k]=String(fd.get(k)).trim());ck.ship=fd.get('s');try{localStorage.setItem('cnt_profile',JSON.stringify(ck.d))}catch(_){}ck.step=1;renderCk()}}
+ if(st==1){$$('input[name=m]').forEach(r=>r.onchange=()=>{ck.pay=r.value;$('#pp').innerHTML=payPanel(ck.pay);bindCard()});bindCard();
+  f.onsubmit=e=>{e.preventDefault();ck.card=ck.pay=='Card'?$('#cnum').value.replace(/\s/g,''):'';ck.step=2;renderCk()}}
+ if(st==2)f.onsubmit=e=>{e.preventDefault();const c2=calc(),sh=SHIP[ck.ship];
+  sendOrder({no:'CNT-'+Math.floor(1000+Math.random()*9000),t:0,items:ck.items.map(i=>({name:i.name,q:i.q})),total:c2.t,name:d.n,phone:d.p,email:d.e,addr:`${d.a}, ${d.c}, ${d.v} ${d.z}`,pay:PAYN[ck.pay]+(ck.card?' •••• '+ck.card.slice(-4):''),eta:dateIn(sh.d),seen:0})}}
+
+function sendOrder(o){$('#sheet').classList.remove('wide');const msgs=['Contacting Centocinquanta HQ…','Reserving your pieces…','Confirming payment…','Packing a gift box…'];
  $('#sheet').innerHTML=`<div class="send"><div class="parcel"><div class="cube">${['f','b','l','r','t','u'].map(k=>`<i class="cf ${k}"></i>`).join('')}</div></div><h3>Sending your order</h3><p class="lead" id="sendMsg" style="margin:8px auto 18px">${msgs[0]}</p><div class="sbar"><i></i></div></div>`;
  let k=0;const iv=setInterval(()=>{k=(k+1)%msgs.length;const m=$('#sendMsg');if(m)m.textContent=msgs[k]},700);
- setTimeout(()=>{clearInterval(iv);o.t=Date.now();orders.unshift(o);state.cart=[];promo=null;$('#promo').value='';render();orderDone(o)},2900)}
+ setTimeout(()=>{clearInterval(iv);o.t=Date.now();orders.unshift(o);if(ck&&ck.items===state.cart){state.cart=[];promo=null;$('#promo').value=''}ck=null;render();orderDone(o)},2900)}
 function orderDone(o){
- $('#sheet').innerHTML=`<div class="done-box"><svg class="chk" viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-16"/></svg><h3>Order sent!</h3><p class="lead" style="margin:6px auto 0">Your order number</p><div class="ono">${o.no}</div><div class="chips"><span>✉ ${o.email}</span><span>✆ ${o.phone}</span></div><div class="road" id="road"><b></b><svg viewBox="0 0 36 20"><path d="M1 3h20v11H1zM21 7h8l6 5v2H21z"/><circle cx="9" cy="16" r="3"/><circle cx="28" cy="16" r="3"/></svg></div><div class="tl" id="tl">${STAGES.map((s,i)=>`<div data-i="${i}"><i></i>${s}</div>`).join('')}</div><p class="lead" style="margin:0 auto 18px">Estimated arrival <b style="color:var(--gold2)">${o.eta}</b></p><div class="acts2"><button class="btn fill" id="trk">Track my order</button><button class="btn" id="ok">Keep shopping</button></div></div>`;
+ $('#sheet').innerHTML=`<div class="done-box"><svg class="chk" viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l8 8 14-16"/></svg><h3>Order sent!</h3><p class="lead" style="margin:6px auto 0">Your order number</p><div class="ono">${o.no}</div><div class="chips"><span>✉ ${o.email}</span><span>✆ ${o.phone}</span></div><div class="recap"><div><small>Ship to</small><b>${o.addr||o.email}</b></div><div><small>Payment</small><b>${o.pay||"—"}</b></div><div><small>Total paid</small><b>${php(o.total)}</b></div></div><div class="road" id="road"><b></b><svg viewBox="0 0 36 20"><path d="M1 3h20v11H1zM21 7h8l6 5v2H21z"/><circle cx="9" cy="16" r="3"/><circle cx="28" cy="16" r="3"/></svg></div><div class="tl" id="tl">${STAGES.map((s,i)=>`<div data-i="${i}"><i></i>${s}</div>`).join('')}</div><p class="lead" style="margin:0 auto 18px">Estimated arrival <b style="color:var(--gold2)">${o.eta}</b></p><div class="acts2"><button class="btn fill" id="trk">Track my order</button><button class="btn" id="ok">Keep shopping</button></div></div>`;
  confetti();spawnParticles(innerWidth/2,innerHeight/2,40,'#f0d78c');
  setTimeout(()=>notify('Confirmation email sent','To '+o.email),900);setTimeout(()=>notify('SMS sent','Order '+o.no+' confirmed · '+o.phone),1900);
  const paint=()=>{const tl=$('#tl');if(!tl)return false;const s=stageOf(o);$$('#tl div').forEach(d=>d.classList.toggle('on',+d.dataset.i<=s));$('#road').style.setProperty('--p',s/4*100+'%');return true};
@@ -819,8 +933,10 @@ const FLAT=PRODUCTS;const SLOT={blazer:'jacket',shirt:'top',tie:'tie'};
 function wear(){}
 /* ---------- film ---------- */
 const scr=$('#screen'),th=$('#theater');let playing=false;
-$('#playBtn').addEventListener('click',()=>{playing=true;th.style.setProperty('--tx','0deg');th.style.setProperty('--ty','0deg');
- scr.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/frSC3Lu66F8?autoplay=1&rel=0&playsinline=1&modestbranding=1" title="Centocinquanta promotional video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'});
+$('#playBtn').addEventListener('click',async()=>{playing=true;th.style.setProperty('--tx','0deg');th.style.setProperty('--ty','0deg');
+ let mp4=false;try{mp4=(await fetch('videos/promo.mp4',{method:'HEAD'})).ok}catch(e){}
+ scr.innerHTML=mp4?'<video src="videos/promo.mp4" controls autoplay playsinline></video>':'<iframe src="https://www.youtube-nocookie.com/embed/frSC3Lu66F8?autoplay=1&rel=0&playsinline=1&modestbranding=1" title="Centocinquanta promotional video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'});
+if(location.protocol=='file:')$('.film-links').insertAdjacentHTML('beforebegin','<p class="film-note">Opened from a file: YouTube blocks embeds here. It plays on your GitHub Pages link.</p>');
 if(fine){th.addEventListener('pointermove',e=>{if(playing)return;const r=th.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;th.style.setProperty('--ty',x*10+'deg');th.style.setProperty('--tx',-y*8+'deg');scr.style.setProperty('--gx',(x+.5)*100+'%')});
  th.addEventListener('pointerleave',()=>{th.style.setProperty('--tx','0deg');th.style.setProperty('--ty','0deg')})}
 /* ---------- about: coin, map, crew ---------- */
