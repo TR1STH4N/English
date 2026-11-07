@@ -381,6 +381,38 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .screen video{position:absolute;inset:0;width:100%;height:100%;background:#000}
 .film-note{text-align:center;color:var(--mute);font-size:13px;margin-top:14px}
 @media(max-width:800px){.qv,.ck-grid{grid-template-columns:1fr}.pays{grid-template-columns:1fr}.pays .pay:last-child{grid-column:auto}.sheet.wide{padding:22px}}
+
+/* ===== v5: refined collection ===== */
+.col-head{margin-bottom:48px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.col-count{font:500 13px var(--sans);color:var(--mute);letter-spacing:.08em}
+.col-count b{color:var(--gold2);font-weight:600}
+.grid{gap:32px 28px;perspective:none}
+.tilt{background:#100e0a;border-radius:6px;padding:0 0 22px;transform:none!important;transition:border-color .25s ease,box-shadow .35s ease,translate .35s var(--out)}
+.tilt::after{display:none}
+@media(hover:hover) and (pointer:fine){.tilt:hover{translate:0 -4px;box-shadow:0 26px 50px rgba(0,0,0,.55);border-color:#6a5628}.tilt:hover .art{transform:none}}
+.tilt .art{border-radius:5px 5px 0 0;filter:none;aspect-ratio:4/5;background:radial-gradient(ellipse 75% 60% at 50% 38%,#f7f5f0,#e4e0d6 62%,#cfcabe)!important}
+.art svg{width:62%}
+.tag{position:absolute;top:14px;left:14px;z-index:4;font:600 10px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:#2a220f;background:rgba(255,255,255,.7);backdrop-filter:blur(6px);padding:6px 10px;border-radius:99px}
+.tilt .info{padding:20px 22px 0;margin:0}
+.ir{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.tilt .info h3{font-size:26px;letter-spacing:0}
+.tilt .info small{margin:4px 0 0;font-size:13px}
+.price{font-size:21px}
+.opts2{padding:18px 22px 0;display:grid;gap:14px}
+.ol{display:flex;align-items:center;gap:14px}
+.ol>em{font:600 10px var(--sans);font-style:normal;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);width:42px;flex:none}
+.ol .cn{font-size:12px;color:var(--mute);margin-left:auto}
+.sw button{width:24px;height:24px}
+.sz button{width:34px;height:30px;border-radius:6px}
+.tilt .btns{padding:20px 22px 0;grid-template-columns:1fr 1.15fr}
+.tilt .btns .btn{padding:14px 10px;font-size:13px;letter-spacing:.02em}
+.more{display:grid;justify-items:center;gap:14px;margin-top:56px}
+.more p{color:var(--mute);font-size:13px;letter-spacing:.08em}
+.more .btn{padding:17px 34px}.more .btn span{opacity:.7;font-weight:500}
+.card[hidden]{display:none!important}
+.card.pop-in{animation:cardin .7s var(--out) backwards;animation-delay:var(--d,0ms)}
+@keyframes cardin{from{opacity:0;transform:translateY(34px) scale(.97)}}
+@media(max-width:560px){.tilt .btns{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -416,8 +448,9 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 
 
 <section class="s" id="collection" data-pose="0.8,0.62,0.3,3"><div class="wrap">
-  <div class="head"><div><div class="eyebrow rv">Collection 01</div><h2 data-split>Four pieces. One crest.</h2></div><p class="lead rv">Pick a cloth and a size, then add it to your order. Prototype checkout for our presentation.</p></div>
+  <div class="head col-head"><div><div class="eyebrow rv">Collection 01</div><h2 data-split>The formal collection.</h2></div><div style="display:grid;gap:10px;justify-items:start;max-width:44ch"><p class="lead rv" style="margin:0;font-size:17px">Choose a cloth and size, then add it to your order. Every piece carries the Centocinquanta crest.</p><span class="col-count rv" id="colCount"></span></div></div>
   <div class="grid" id="grid"></div>
+  <div class="more rv"><button class="btn" id="moreBtn">Add more <span id="moreN"></span></button><p id="moreNote"></p></div>
 </div></section>
 
 <section class="s" id="film" data-pose="-0.8,0.62,0.3,3.6"><div class="wrap">
@@ -719,14 +752,44 @@ const PRODUCTS=[
  <line x1="86" y1="68" x2="76" y2="196" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
  <line x1="114" y1="68" x2="124" y2="196" stroke="rgba(0,0,0,.2)" stroke-width=".8"/>
  `}];
+
+const G=id=>`<defs><linearGradient id="f-${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--lc)"/><stop offset=".5" stop-color="var(--fc)"/><stop offset="1" stop-color="var(--fc3)"/></linearGradient></defs>`;
+const GOLD='#cfa94e',FL=id=>`fill="url(#f-${id})"`,SH='<ellipse cx="100" cy="222" rx="52" ry="6" fill="rgba(0,0,0,.18)"/>';
+const btn=(x,y)=>`<circle cx="${x}" cy="${y}" r="3.6" fill="${GOLD}" stroke="rgba(0,0,0,.3)" stroke-width=".6"/>`;
+const crest=(x,y,r=7)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${GOLD}" stroke-width="1.2"/><text x="${x}" y="${y+r*.36}" font-family="Georgia,serif" font-size="${r*1.05}" font-weight="700" fill="${GOLD}" text-anchor="middle">C</text>`;
+const seam='stroke="rgba(255,255,255,.14)" stroke-width=".9" fill="none"';
+PRODUCTS.push(
+{id:'trousers',cat:'Tailoring',name:'Tailored Trousers',note:'Wool blend · pressed crease',price:4200,sizes:1,svg:G('tr')+SH+
+ `<path d="M58 40H142L150 214H108L100 104L92 214H50Z" ${FL('tr')}/><rect x="58" y="40" width="84" height="12" fill="rgba(0,0,0,.22)"/><path d="M100 52V104" ${seam}/><path d="M75 56L72 214M125 56L128 214" ${seam}/><rect x="66" y="40" width="3" height="11" fill="rgba(0,0,0,.35)"/><rect x="131" y="40" width="3" height="11" fill="rgba(0,0,0,.35)"/>${btn(100,46)}<path d="M58 40H142" stroke="rgba(255,255,255,.18)"/>`},
+{id:'waistcoat',cat:'Tailoring',name:'Crest Waistcoat',note:'Wool blend · satin back',price:3900,sizes:1,svg:G('wc')+SH+
+ `<path d="M62 44L84 38L100 96L116 38L138 44L144 196L100 210L56 196Z" ${FL('wc')}/><path d="M84 38L100 96L116 38" fill="rgba(0,0,0,.28)"/><path d="M100 96V206" ${seam}/><path d="M72 150H88M112 150H128" stroke="rgba(0,0,0,.45)" stroke-width="2"/>${btn(100,112)}${btn(100,134)}${btn(100,156)}${btn(100,178)}${crest(121,128,6)}`},
+{id:'overcoat',cat:'Outerwear',name:'Wool Overcoat',note:'Double-faced wool · gold buttons',price:12500,sizes:1,svg:G('oc')+SH+
+ `<path d="M62 42Q100 28 138 42L156 80L164 206H36L44 80Z" ${FL('oc')}/><path d="M44 80L36 206M156 80L164 206" stroke="rgba(0,0,0,.25)" stroke-width="2"/><path d="M84 36L100 118L70 74Z M116 36L100 118L130 74Z" fill="rgba(255,255,255,.12)" stroke="rgba(0,0,0,.25)" stroke-width=".8"/><path d="M100 118V206" ${seam}/>${btn(90,140)}${btn(110,140)}${btn(90,166)}${btn(110,166)}<path d="M56 150H76M124 150H144" stroke="rgba(0,0,0,.4)" stroke-width="2"/>${crest(124,100,6)}`},
+{id:'bowtie',cat:'Neckwear',name:'Silk Bow Tie',note:'Woven silk · self-tie',price:1500,sizes:0,svg:G('bt')+
+ `<path d="M98 120L40 90Q32 120 40 150Z" ${FL('bt')}/><path d="M102 120L160 90Q168 120 160 150Z" ${FL('bt')}/><path d="M98 120L40 90M98 120L40 150M102 120L160 90M102 120L160 150" stroke="rgba(0,0,0,.25)" stroke-width="1"/><rect x="88" y="104" width="24" height="32" rx="7" fill="rgba(0,0,0,.28)"/><rect x="88" y="104" width="24" height="32" rx="7" fill="none" stroke="rgba(255,255,255,.18)"/>${crest(100,120,5)}<ellipse cx="100" cy="176" rx="46" ry="5" fill="rgba(0,0,0,.16)"/>`},
+{id:'pocket',cat:'Accessories',name:'Pocket Square',note:'Silk twill · hand-rolled edge',price:950,sizes:0,svg:G('ps')+
+ `<path d="M52 170V120L76 80L100 120L124 80L148 120V170Z" ${FL('ps')}/><path d="M76 80L100 120L124 80" fill="rgba(255,255,255,.16)"/><path d="M52 170V120L76 80L100 120L124 80L148 120V170Z" fill="none" stroke="${GOLD}" stroke-width="1.6"/><path d="M52 160H148" stroke="rgba(0,0,0,.2)"/>${crest(100,148,7)}<ellipse cx="100" cy="182" rx="48" ry="5" fill="rgba(0,0,0,.16)"/>`},
+{id:'belt',cat:'Accessories',name:'Leather Belt',note:'Full-grain leather · gold buckle',price:2200,sizes:1,svg:G('bl')+
+ `<rect x="18" y="108" width="164" height="24" rx="3" ${FL('bl')}/><path d="M18 113H182M18 127H182" stroke="rgba(255,255,255,.15)" stroke-dasharray="3 3"/><circle cx="140" cy="120" r="2" fill="rgba(0,0,0,.5)"/><circle cx="152" cy="120" r="2" fill="rgba(0,0,0,.5)"/><circle cx="164" cy="120" r="2" fill="rgba(0,0,0,.5)"/><rect x="66" y="96" width="46" height="48" rx="5" fill="none" stroke="${GOLD}" stroke-width="6"/><rect x="66" y="96" width="46" height="48" rx="5" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/><path d="M89 108H138" stroke="${GOLD}" stroke-width="3"/><ellipse cx="100" cy="164" rx="60" ry="5" fill="rgba(0,0,0,.16)"/>`}
+);
+const CAT={blazer:'Tailoring',shirt:'Shirting',tie:'Neckwear'};PRODUCTS.forEach(p=>{p.cat=p.cat||CAT[p.id]||'Formal'});
 const SIZES=['XS','S','M','L','XL'],state={cart:[],sel:{}};
 PRODUCTS.forEach(p=>state.sel[p.id]={c:'Onyx',s:'M'});
-$('#grid').innerHTML=PRODUCTS.map((p,i)=>`<div class="card rv" data-id="${p.id}" style="--d:${i*110}ms"><div class="tilt" style="--c:${COLORS.Onyx}">
- <div class="art"><img class="ph" src="images/${p.id}.jpg" alt="${p.name}" loading="lazy" onerror="this.remove()"><svg viewBox="0 0 200 240" aria-hidden="true" style="--c:${COLORS.Onyx}">${p.svg}</svg><span class="qvh">Quick view</span></div>
- <div class="info"><h3>${p.name}</h3><small>${p.note}</small><span class="price">${php(p.price)}</span></div>
- <div class="row" style="padding:0 18px"><div class="sw" role="group" aria-label="Cloth">${Object.entries(COLORS).map(([n,c],k)=>`<button style="--c:${c}" data-c="${n}" aria-label="${n}" aria-pressed="${k==0}"></button>`).join('')}</div>
- ${p.sizes?`<div class="sz" role="group" aria-label="Size">${SIZES.map(s=>`<button data-s="${s}" aria-pressed="${s=='M'}">${s}</button>`).join('')}</div>`:''}</div>
+const PAGE=3;
+$('#grid').innerHTML=PRODUCTS.map((p,i)=>`<div class="card rv" data-id="${p.id}" ${i>=PAGE?'hidden data-extra':''} style="--d:${(i%PAGE)*110}ms"><div class="tilt" style="--c:${COLORS.Onyx}">
+ <div class="art"><img class="ph" src="images/${p.id}.jpg" alt="${p.name}" loading="lazy" onerror="this.remove()"><svg viewBox="0 0 200 240" aria-hidden="true" style="--c:${COLORS.Onyx}">${p.svg}</svg><span class="tag">${p.cat}</span><span class="qvh">Quick view</span></div>
+ <div class="info"><div class="ir"><h3>${p.name}</h3><span class="price">${php(p.price)}</span></div><small>${p.note}</small></div>
+ <div class="opts2"><div class="ol"><em>Cloth</em><div class="sw" role="group" aria-label="Cloth">${Object.entries(COLORS).map(([n,c],k)=>`<button style="--c:${c}" data-c="${n}" aria-label="${n}" aria-pressed="${k==0}"></button>`).join('')}</div><span class="cn">Onyx</span></div>
+ ${p.sizes?`<div class="ol"><em>Size</em><div class="sz" role="group" aria-label="Size">${SIZES.map(s=>`<button data-s="${s}" aria-pressed="${s=='M'}">${s}</button>`).join('')}</div></div>`:''}</div>
  <div class="btns"><button class="btn add">Add to order</button><button class="btn fill buy">Buy now</button></div></div></div>`).join('');
+$$('.sw button').forEach(b=>b.addEventListener('click',()=>{const n=b.closest('.ol').querySelector('.cn');if(n)n.textContent=b.dataset.c}));
+(function(){const more=$('#moreBtn'),cards=$$('.card[data-extra]'),total=PRODUCTS.length;let shown=PAGE;
+ const upd=()=>{$('#colCount').innerHTML=`Showing <b>${shown}</b> of <b>${total}</b> pieces`;const left=total-shown;
+  more.hidden=false;more.firstChild.textContent=left>0?'Add more ':'Show less';$('#moreN').textContent=left>0?`(+${Math.min(PAGE,left)})`:'';
+  $('#moreNote').textContent=left>0?`${left} more piece${left>1?'s':''} available in our shop`:'You have seen the whole collection'};
+ more.addEventListener('click',()=>{if(shown>=total){cards.forEach(c=>c.hidden=true);shown=PAGE;$('#collection').scrollIntoView({behavior:'smooth'});upd();return}
+  const next=cards.slice(shown-PAGE,shown-PAGE+PAGE);next.forEach((c,i)=>{c.hidden=false;c.classList.add('vis','pop-in');c.style.setProperty('--d',i*110+'ms')});shown+=next.length;upd();
+  next[0].scrollIntoView({behavior:'smooth',block:'center'})});upd()})();
 $$('.card').forEach(card=>{
  const id=card.dataset.id,t=$('.tilt',card);
  card.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
